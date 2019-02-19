@@ -5,6 +5,9 @@
     "tslint-config-prettier"
   ],
   "jsRules": {},
-  "rules": { "prettier": true },
+  "rules": {
+    "prettier": true,
+    "no-var-requires": false
+  },
   "rulesDirectory": ["tslint-plugin-prettier"]
 }

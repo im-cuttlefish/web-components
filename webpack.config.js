@@ -10,11 +10,15 @@ module.exports = {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.html$/,
+        use: "html-loader"
       }
     ]
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".js", ".html", ".css"]
   },
   output: {
     filename: "bundle.js",
