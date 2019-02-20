@@ -1,1 +1,3 @@
-import "./header";
+import "@webcomponents/webcomponentsjs";
+
+import "./hero-header";
