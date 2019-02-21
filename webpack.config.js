@@ -14,11 +14,19 @@ module.exports = {
       {
         test: /\.html$/,
         use: "html-loader"
+      },
+      {
+        test: /\.css$/,
+        use: "raw-loader"
+      },
+      {
+        test: /\.scss$/,
+        use: ["raw-loader", "sass-loader"]
       }
     ]
   },
   resolve: {
-    extensions: [".ts", ".js", ".html", ".css"]
+    extensions: [".ts", ".js", ".html", ".css", ".scss"]
   },
   output: {
     filename: "bundle.js",
