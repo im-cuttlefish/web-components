@@ -1,6 +1,6 @@
 import { Component } from "../../component";
-const template = require("./template.html");
-const style = require("./style.scss");
+const template = require("./template.html") as string;
+const style = require("./style.scss") as string;
 
 export const heroHeader: Component = {
   name: "hero-header",
