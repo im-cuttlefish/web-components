@@ -29,7 +29,6 @@ const defineComponent = (name, html, css) => {
 };
 
 window.addEventListener("message", event => {
-  console.log("fire");
   const json = JSON.parse(event.data);
   for (const component of json.components) {
     defineComponent(component.name, component.html, component.css);
@@ -38,4 +37,4 @@ window.addEventListener("message", event => {
 }, false);
 </script>
 </body>
-</html> 
+</html>

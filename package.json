@@ -14,8 +14,7 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.7",
     "raw-loader": "^1.0.0",
-    "sass-loader": "^7.1.0",
-    "vue": "^2.6.7"
+    "sass-loader": "^7.1.0"
   },
   "devDependencies": {
     "@types/requirejs": "^2.1.31",
