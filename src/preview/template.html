@@ -30,11 +30,19 @@ const defineComponent = (name, html, css) => {
 
 window.addEventListener("message", event => {
   const json = JSON.parse(event.data);
-  for (const component of json.components) {
-    defineComponent(component.name, component.html, component.css);
+
+  if (json.components) {
+    for (const component of json.components) {
+      defineComponent(component.name, component.html, component.css);
+    }
   }
-  document.body.innerHTML = json.html;
+
+  if (json.html) {
+    document.body.innerHTML = json.html;
+  }
 }, false);
+
+window.parent.postMessage("preview iframe is activated", "*");
 </script>
 </body>
 </html>
