@@ -7,6 +7,12 @@ module.exports = {
   module: {
     rules: [
       {
+        enforce: "pre",
+        test: /\.css$/,
+        use: "typed-css-modules-loader",
+        exclude: /node_modules/
+      },
+      {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/
@@ -17,7 +23,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: "raw-loader"
+        use: ["style-loader", "css-loader?modules"]
       },
       {
         test: /\.scss$/,
@@ -26,7 +32,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".ts", ".js", ".html", ".css", ".scss"]
+    extensions: [".tsx", ".ts", ".js", ".html", ".css", ".scss"]
   },
   output: {
     filename: "bundle.js",

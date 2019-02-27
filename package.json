@@ -6,30 +6,37 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:src": "webpack -w",
+    "watch:css": "tcm -w -c -p src/**/*.css",
     "watch:dist": "browser-sync start --config bs-config.js",
     "watch": "run-p watch:*"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.2.7",
-    "raw-loader": "^1.0.0",
-    "sass-loader": "^7.1.0"
+    "vue": "^2.6.7",
+    "vue-class-component": "^7.0.1",
+    "vue-property-decorator": "^7.3.0"
   },
   "devDependencies": {
     "@types/requirejs": "^2.1.31",
     "browser-sync": "^2.26.3",
+    "css-loader": "^2.1.0",
     "html-loader": "^0.5.5",
     "node-sass": "^4.11.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.16.0",
+    "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.17.0",
     "tslint-plugin-prettier": "^2.0.1",
+    "typed-css-modules": "^0.3.7",
+    "typed-css-modules-loader": "0.0.17",
     "typescript": "^3.3.3",
     "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "raw-loader": "^1.0.0",
+    "sass-loader": "^7.1.0"
   }
 }

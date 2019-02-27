@@ -1,11 +1,6 @@
 import { Component } from "../web-components/component";
 const html = require("./template.html");
 
-interface Cue {
-  type: "updateHTML" | "defineComponent";
-  content: string;
-}
-
 export class Preview {
   view: HTMLIFrameElement;
   private defined: Set<string>;
@@ -20,8 +15,8 @@ export class Preview {
     this.isActive = false;
 
     const executeCue = (event: MessageEvent) => {
-      this.isActive = true;
       if (event.data === "preview iframe is activated") {
+        this.isActive = true;
         for (const cue of this.cue) {
           this.view.contentWindow!.postMessage(cue, "*");
         }
