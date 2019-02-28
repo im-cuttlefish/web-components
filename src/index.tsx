@@ -1,6 +1,10 @@
-import { heroHeader } from "./web-components";
-import { Preview } from "./preview";
+import React from "react";
+import { render } from "react-dom";
+import { App } from "./editor";
 
+render(<App />, document.body);
+
+/*
 const html = `
 <hero-header>
   <span slot="title">aaaa</span>
@@ -13,3 +17,4 @@ const preview = new Preview();
 document.body.appendChild(preview.view);
 preview.updateHTML(html);
 preview.defineComponent(heroHeader);
+*/

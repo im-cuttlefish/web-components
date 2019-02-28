@@ -1,5 +1,7 @@
-import vue from "vue";
-import { Component } from "vue-property-decorator";
+import React, { Component } from "react";
 
-@Component
-export class Element extends vue {}
+export class App extends Component {
+  public render() {
+    return <h1>aaaa</h1>;
+  }
+}

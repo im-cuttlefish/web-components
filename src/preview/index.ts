@@ -2,7 +2,7 @@ import { Component } from "../web-components/component";
 const html = require("./template.html");
 
 export class Preview {
-  view: HTMLIFrameElement;
+  readonly view: HTMLIFrameElement;
   private defined: Set<string>;
   private cue: string[];
   private isActive: boolean;
@@ -17,10 +17,10 @@ export class Preview {
     const executeCue = (event: MessageEvent) => {
       if (event.data === "preview iframe is activated") {
         this.isActive = true;
+        window.removeEventListener("message", executeCue, false);
         for (const cue of this.cue) {
           this.view.contentWindow!.postMessage(cue, "*");
         }
-        window.removeEventListener("message", executeCue, false);
       }
     };
 
