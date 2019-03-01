@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import { App } from "./editor";
 
-render(<App />, document.body);
+render(<App />, document.getElementById("container"));
 
 /*
 const html = `

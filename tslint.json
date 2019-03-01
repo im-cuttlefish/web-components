@@ -9,8 +9,12 @@
   "jsRules": {},
   "rules": {
     "prettier": true,
+    "no-console": false,
     "no-var-requires": false,
-    "import-name": false
+    "import-name": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "jsx-boolean-value": false
   },
   "rulesDirectory": ["tslint-plugin-prettier"]
 }

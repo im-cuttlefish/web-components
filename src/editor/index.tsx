@@ -1,7 +1,22 @@
 import React, { Component } from "react";
+import { Header } from "./header";
+import { Grid } from "@material-ui/core";
+import SimpleMDE from "react-simplemde-editor";
 
 export class App extends Component {
   public render() {
-    return <h1>aaaa</h1>;
+    return (
+      <div>
+        <Header />
+        <Grid container>
+          <Grid item>
+            <SimpleMDE options={{ spellChecker: false }} />
+          </Grid>
+          <Grid item>
+            <div>aaaa</div>
+          </Grid>
+        </Grid>
+      </div>
+    );
   }
 }
