@@ -1,15 +1,15 @@
-import { Component } from "../web-components/component";
-const html = require("./template.html");
+import { IComponent } from "../web-components/component";
+const srcdoc = require("./template.html");
 
-export class Preview {
-  readonly view: HTMLIFrameElement;
+export class PreviewManager {
+  public readonly view: HTMLIFrameElement;
   private defined: Set<string>;
   private cue: string[];
   private isActive: boolean;
 
   constructor() {
     this.view = document.createElement("iframe");
-    this.view.srcdoc = html;
+    this.view.srcdoc = srcdoc;
     this.defined = new Set();
     this.cue = [];
     this.isActive = false;
@@ -27,7 +27,7 @@ export class Preview {
     window.addEventListener("message", executeCue, false);
   }
 
-  updateHTML(html: string) {
+  public updateHTML(html: string) {
     const json = JSON.stringify({ html });
 
     if (this.isActive) {
@@ -37,7 +37,7 @@ export class Preview {
     }
   }
 
-  defineComponent(...components: Component[]) {
+  public defineComponent(...components: IComponent[]) {
     const unregistered = components.filter(elm => !this.defined.has(elm.name));
     if (!unregistered) return;
 
