@@ -11,8 +11,8 @@ interface IState {
 export class Preview extends Component<{}, IState> {
   private ref: React.RefObject<HTMLIFrameElement>;
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super({});
     this.ref = React.createRef();
 
     const executeCue = (event: MessageEvent) => {
@@ -20,7 +20,7 @@ export class Preview extends Component<{}, IState> {
         this.setState({ isActive: true });
         window.removeEventListener("message", executeCue, false);
         for (const cue of this.state.cue) {
-          this.ref.current.contentWindow!.postMessage(cue, "*");
+          this.ref.current!.contentWindow!.postMessage(cue, "*");
         }
       }
     };
@@ -32,7 +32,7 @@ export class Preview extends Component<{}, IState> {
     const json = JSON.stringify({ html });
 
     if (this.state.isActive) {
-      this.ref.current.contentWindow!.postMessage(json, "*");
+      this.ref.current!.contentWindow!.postMessage(json, "*");
     } else {
       this.setState({ cue: this.state.cue.concat(html) });
     }
@@ -47,7 +47,7 @@ export class Preview extends Component<{}, IState> {
     const json = JSON.stringify({ components: unregistered });
 
     if (this.state.isActive) {
-      this.ref.current.contentWindow!.postMessage(json, "*");
+      this.ref.current!.contentWindow!.postMessage(json, "*");
     } else {
       this.setState({ cue: this.state.cue.concat(json) });
     }

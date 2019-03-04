@@ -17,7 +17,8 @@
     "@types/react-dom": "^16.8.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-simplemde-editor": "^4.0.0"
+    "react-simplemde-editor": "^4.0.0",
+    "superfine": "^6.0.1"
   },
   "devDependencies": {
     "@types/react": "^16.8.5",
