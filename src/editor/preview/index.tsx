@@ -1,71 +1,34 @@
-import React, { Component } from "react";
-import { IComponent } from "../../web-components/component";
-const srcdoc = require("./template.html");
+import React, { Component, createElement } from "react";
+import { render } from "react-dom";
+const html = require("./template.html");
+
+interface IProps {}
 
 interface IState {
   defined: Set<string>;
-  cue: string[];
-  isActive: boolean;
 }
 
-export class Preview extends Component<{}, IState> {
+export class Preview extends Component<IProps, IState> {
   private ref: React.RefObject<HTMLIFrameElement>;
 
-  constructor() {
-    super({});
+  constructor(props: IProps) {
+    super(props);
     this.ref = React.createRef();
-
-    const executeCue = (event: MessageEvent) => {
-      if (event.data === "preview iframe is activated") {
-        this.setState({ isActive: true });
-        window.removeEventListener("message", executeCue, false);
-        for (const cue of this.state.cue) {
-          this.ref.current!.contentWindow!.postMessage(cue, "*");
-        }
-      }
-    };
-
-    window.addEventListener("message", executeCue, false);
-  }
-
-  public updateHTML(html: string) {
-    const json = JSON.stringify({ html });
-
-    if (this.state.isActive) {
-      this.ref.current!.contentWindow!.postMessage(json, "*");
-    } else {
-      this.setState({ cue: this.state.cue.concat(html) });
-    }
-  }
-
-  public defineComponent(...components: IComponent[]) {
-    const unregistered = components.filter(
-      elm => !this.state.defined.has(elm.name)
-    );
-    if (!unregistered) return;
-
-    const json = JSON.stringify({ components: unregistered });
-
-    if (this.state.isActive) {
-      this.ref.current!.contentWindow!.postMessage(json, "*");
-    } else {
-      this.setState({ cue: this.state.cue.concat(json) });
-    }
-
-    for (const elm of unregistered) {
-      this.state.defined.add(elm.name);
-    }
-  }
-
-  public componentDidMount() {
-    this.setState({
-      defined: new Set(),
-      cue: [],
-      isActive: false
-    });
   }
 
   public render() {
-    return <iframe ref={this.ref} srcDoc={srcdoc} />;
+    return <iframe ref={this.ref} />;
+  }
+
+  public componentDidMount() {
+    this.setState({ defined: new Set() });
+
+    const content = this.ref.current!.contentDocument;
+    const preview = document.createElement("div");
+
+    content.head.innerHTML = html;
+    content.body.appendChild(preview);
+
+    render(createElement("p", null, "hello world"), preview);
   }
 }
