@@ -1,7 +1,17 @@
 import React, { Component } from "react";
+import { Card, CardContent } from "@material-ui/core";
+import { INode } from "./node";
 
-export class Tree extends Component {
+interface IProps {
+  tree: INode[];
+}
+
+export class Tree extends Component<IProps> {
   public render() {
-    return <div />;
+    return (
+      <Card>
+        <CardContent>Wood</CardContent>
+      </Card>
+    );
   }
 }

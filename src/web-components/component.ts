@@ -5,5 +5,5 @@ export interface IComponent {
   html: string;
   css?: string;
   container?: boolean;
-  slot: "default" | { [name: string]: Slot | Slot[] };
+  slot: { [name: string]: Slot | Slot[] };
 }
