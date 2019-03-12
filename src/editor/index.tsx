@@ -2,44 +2,37 @@ import React, { Component } from "react";
 import { Header } from "./header";
 import { Tree } from "./tree";
 import { Preview } from "./preview";
-import { Editor, EditorState } from "draft-js";
+import { MdEditor } from "./md-editor";
+import * as style from "./style.css";
 import { Grid } from "@material-ui/core";
 import { INode } from "./tree/node";
 
 interface IState {
   tree: INode[];
-  editor: EditorState;
 }
 
 export class App extends Component<{}, IState> {
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
-    this.state = { tree: [], editor: EditorState.createEmpty() };
+    this.state = { tree: [] };
   }
 
   public render() {
     return (
-      <div>
+      <div className={style.root}>
         <Header />
         <Grid container spacing={16}>
-          <Grid item>
+          <Grid item xs={2}>
             <Tree tree={this.state.tree} />
           </Grid>
-          <Grid item>
-            <Editor
-              editorState={this.state.editor}
-              onChange={this.onEditorChange}
-            />
+          <Grid item xs={5}>
+            <MdEditor />
           </Grid>
-          <Grid item>
-            <Preview />
+          <Grid item xs={5}>
+            {/*<Preview />*/}
           </Grid>
         </Grid>
       </div>
     );
-  }
-
-  public onEditorChange(editor: EditorState) {
-    this.setState({ editor });
   }
 }

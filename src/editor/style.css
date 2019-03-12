@@ -1,3 +1,6 @@
-.md-editor {
-  height: 100%;
+.root {
+  display: grid;
+  height: 100vh;
+  box-sizing: border-box;
+  grid-template-rows: min-content auto-fit;
 }

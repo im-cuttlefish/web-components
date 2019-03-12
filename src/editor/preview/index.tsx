@@ -1,5 +1,6 @@
 import React, { Component, createElement } from "react";
 import { render } from "react-dom";
+import * as style from "./style.css";
 const html = require("./template.html");
 
 interface IState {
@@ -9,13 +10,13 @@ interface IState {
 export class Preview extends Component<{}, IState> {
   private ref: React.RefObject<HTMLIFrameElement>;
 
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.ref = React.createRef();
   }
 
   public render() {
-    return <iframe ref={this.ref} />;
+    return <iframe className={style.preview} ref={this.ref} />;
   }
 
   public componentDidMount() {
