@@ -1,6 +1,28 @@
-.root {
+.container {
   display: grid;
   height: 100vh;
-  box-sizing: border-box;
-  grid-template-rows: min-content auto-fit;
+  grid-template-rows: 5rem 1fr;
+  grid-template-columns: 20% 40% 40%;
+  grid-template-areas: 
+    " header header header  "
+    " tree   editor preview ";
+}
+
+.header {
+  grid-area: header;
+}
+
+.tree {
+  grid-area: tree;
+  padding: 0 5px;
+}
+
+.editor {
+  grid-area: editor;
+  padding: 0 5px;
+}
+
+.preview {
+  grid-area: preview;
+  padding: 0 5px;
 }

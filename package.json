@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:src": "webpack -w",
-    "watch:css": "tcm -w -c -p src/**/*.css",
+    "watch:css": "tcm src -w -c",
     "watch:dist": "browser-sync start --config bs-config.js",
     "watch": "run-p watch:*"
   },

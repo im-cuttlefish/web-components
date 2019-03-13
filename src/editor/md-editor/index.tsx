@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import { Editor, EditorState } from "draft-js";
+import { Button } from "@material-ui/core";
+import { Editor, EditorState, ContentBlock } from "draft-js";
+import * as style from "./style.css";
 
 interface IState {
   editorState: EditorState;
 }
+
+const styleBlock = (contentBlock: ContentBlock) => {
+  const type = contentBlock.getType();
+};
 
 export class MdEditor extends Component<{}, IState> {
   public onChange: (x: EditorState) => void;
@@ -17,7 +23,12 @@ export class MdEditor extends Component<{}, IState> {
 
   public render() {
     return (
-      <Editor editorState={this.state.editorState} onChange={this.onChange} />
+      <div className={style.container}>
+        <div>
+          <Button>タイトル</Button>
+        </div>
+        <Editor editorState={this.state.editorState} onChange={this.onChange} />
+      </div>
     );
   }
 }

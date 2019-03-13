@@ -1,12 +1,12 @@
-import { AppBar, Toolbar } from "@material-ui/core";
 import React, { Component } from "react";
+import * as style from "./style.css";
 
 export class Header extends Component {
   public render() {
     return (
-      <AppBar position="static">
-        <Toolbar>aaaaaaa</Toolbar>
-      </AppBar>
+      <header className={style.header}>
+        <h1>Pera Designer (Beta)</h1>
+      </header>
     );
   }
 }
