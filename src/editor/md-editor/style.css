@@ -1,5 +1,9 @@
 .container {
-  display: grid;
+  display: flex;
   height: 100%;
-  grid-template-rows: 5rem 1fr;
+  flex-direction: column;
+}
+
+.editor {
+  flex-grow: 1;
 }

@@ -1,4 +1,4 @@
-import { IComponent } from "../../component";
+import { IComponent } from "../component";
 const template = require("./template.html") as string;
 const style = require("./style.scss") as string;
 

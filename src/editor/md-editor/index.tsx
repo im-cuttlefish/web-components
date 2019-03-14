@@ -27,7 +27,12 @@ export class MdEditor extends Component<{}, IState> {
         <div>
           <Button>タイトル</Button>
         </div>
-        <Editor editorState={this.state.editorState} onChange={this.onChange} />
+        <div className={style.editor}>
+          <Editor
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+          />
+        </div>
       </div>
     );
   }
