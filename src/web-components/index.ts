@@ -1,4 +1,8 @@
 import { IComponent } from "./component";
-import { heroHeader } from "./hero-header";
+import { header } from "./header";
 
-export const components: { [key: string]: IComponent } = { heroHeader };
+interface IComponents {
+  [type: string]: IComponent[];
+}
+
+export const components: IComponents = { header };

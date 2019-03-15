@@ -1,2 +1,2 @@
 export const container: string;
-export const editor: string;
+export const buttons: string;

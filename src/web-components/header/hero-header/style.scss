@@ -1,0 +1,16 @@
+.hero-header {
+  position: relative;
+
+  &__cover ::slotted(img) {
+    width: 100%;
+  }
+
+  &__title {
+    position: absolute;
+    color: var(--title-color);
+    font-size: 5rem;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+  }
+}

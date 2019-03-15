@@ -1,9 +1,12 @@
 .container {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
+  display: grid;
+  height: calc(100vh - 5rem);
+  grid-template-rows: auto 1fr;
+  overflow-y: scroll;
+  position: relative;
 }
 
-.editor {
-  flex-grow: 1;
+.buttons {
+  position: sticky;
+  top: 0;
 }

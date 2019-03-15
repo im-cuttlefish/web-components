@@ -7,39 +7,54 @@ interface IState {
   editorState: EditorState;
 }
 
-const styleBlock = (contentBlock: ContentBlock) => {
-  const type = contentBlock.getType();
-};
-
 export class MdEditor extends Component<{}, IState> {
-  public onChange: (x: EditorState) => void;
-  public toggleTitle: () => void;
+  private domEditor?: Editor;
 
   constructor(props: {}) {
     super(props);
     this.state = { editorState: EditorState.createEmpty() };
-
-    this.onChange = (editorState: EditorState) => {
-      this.setState({ editorState });
-    };
-
-    this.toggleTitle = () => {
-      this.onChange(
-        RichUtils.toggleInlineStyle(this.state.editorState, "BOLD")
-      );
-    };
   }
+
+  public setDOMEditorRef = (ref: Editor) => {
+    this.domEditor = ref;
+  };
+
+  public onChange = (editorState: EditorState) => {
+    this.setState(() => ({ editorState }));
+  };
+
+  public focusEditor = () => {
+    this.domEditor!.focus();
+  };
+
+  public toTitle = () => {
+    this.onChange(
+      RichUtils.toggleBlockType(this.state.editorState, "header-two")
+    );
+  };
+
+  public styleBlock = (type: string) => {
+    return () => {
+      this.onChange(RichUtils.toggleBlockType(this.state.editorState, type));
+    };
+  };
 
   public render() {
     return (
       <div className={style.container}>
-        <div>
-          <Button onClick={this.toggleTitle}>タイトル</Button>
+        <div className={style.buttons}>
+          <Button onClick={this.styleBlock("header-two")} variant="outlined">
+            タイトル
+          </Button>
+          <Button onClick={this.styleBlock("header-three")} variant="outlined">
+            サブタイトル
+          </Button>
         </div>
-        <div className={style.editor}>
+        <div onClick={this.focusEditor}>
           <Editor
             editorState={this.state.editorState}
             onChange={this.onChange}
+            ref={this.setDOMEditorRef}
           />
         </div>
       </div>
