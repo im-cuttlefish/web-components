@@ -2,6 +2,7 @@ import React, { Component, MouseEvent } from "react";
 import { Button } from "@material-ui/core";
 import * as style from "./style.css";
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
+import FormatListNumbered from "@material-ui/icons/FormatListNumbered";
 
 interface IState {
   editorState: EditorState;
@@ -50,12 +51,9 @@ export class MdEditor extends Component<{}, IState> {
           >
             サブタイトル
           </Button>
-          <Button
+          <FormatListNumbered
             onMouseDown={this.styleBlock("ordered-list-item")}
-            variant="outlined"
-          >
-            順序リスト
-          </Button>
+          />
         </div>
         <div className={style.editorWrapper} onClick={this.focusEditor}>
           <div className={style.editor}>

@@ -6,8 +6,6 @@ import { MdEditor } from "./md-editor";
 import * as style from "./style.css";
 import { INode } from "./tree/node";
 
-import { Grid, AppBar, Toolbar } from "@material-ui/core";
-
 interface IState {
   tree: INode[];
 }
@@ -24,13 +22,13 @@ export class App extends Component<{}, IState> {
         <div className={style.header}>
           <Header />
         </div>
-        <div className={style.tree}>
+        <div className={style.left}>
           <Tree tree={this.state.tree} />
         </div>
-        <div className={style.editor}>
+        <div className={style.center}>
           <MdEditor />
         </div>
-        <div className={style.preview}>
+        <div className={style.right}>
           <Preview />
         </div>
       </div>

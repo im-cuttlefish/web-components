@@ -4,25 +4,25 @@
   grid-template-rows: auto 1fr;
   grid-template-columns: 20% 40% 40%;
   grid-template-areas: 
-    " header header header  "
-    " tree   editor preview ";
+    " header header header "
+    " left   center right  ";
 }
 
 .header {
   grid-area: header;
 }
 
-.tree {
-  grid-area: tree;
+.left {
+  grid-area: left;
   padding: 0 5px;
 }
 
-.editor {
-  grid-area: editor;
+.center {
+  grid-area: center;
   padding: 0 5px;
 }
 
-.preview {
-  grid-area: preview;
+.right {
+  grid-area: right;
   padding: 0 5px;
 }
