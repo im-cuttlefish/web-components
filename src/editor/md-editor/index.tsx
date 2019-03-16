@@ -50,12 +50,14 @@ export class MdEditor extends Component<{}, IState> {
             サブタイトル
           </Button>
         </div>
-        <div onClick={this.focusEditor}>
-          <Editor
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            ref={this.setDOMEditorRef}
-          />
+        <div className={style.editorWrapper} onClick={this.focusEditor}>
+          <div className={style.editor}>
+            <Editor
+              editorState={this.state.editorState}
+              onChange={this.onChange}
+              ref={this.setDOMEditorRef}
+            />
+          </div>
         </div>
       </div>
     );

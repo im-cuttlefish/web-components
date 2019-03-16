@@ -1,12 +1,27 @@
 .container {
   display: grid;
-  height: calc(100vh - 5rem);
+  height: 100%;
   grid-template-rows: auto 1fr;
-  overflow-y: scroll;
   position: relative;
 }
 
 .buttons {
   position: sticky;
   top: 0;
+  z-index: 2;
+}
+
+.editorWrapper {
+  position: relative;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.editor {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index: 0;
+  line-height: 1.75;
+  word-break: break-all;
 }
