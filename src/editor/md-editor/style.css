@@ -18,8 +18,8 @@
 }
 
 .editor {
+  padding: 0 1rem;
   position: absolute;
-  width: 100%;
   top: 0;
   z-index: 0;
   line-height: 1.75;

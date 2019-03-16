@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, MouseEvent } from "react";
 import { Button } from "@material-ui/core";
-import { Editor, EditorState, ContentBlock, RichUtils } from "draft-js";
 import * as style from "./style.css";
+import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
 
 interface IState {
   editorState: EditorState;
@@ -27,15 +27,10 @@ export class MdEditor extends Component<{}, IState> {
     this.domEditor!.focus();
   };
 
-  public toTitle = () => {
-    this.onChange(
-      RichUtils.toggleBlockType(this.state.editorState, "header-two")
-    );
-  };
-
   public styleBlock = (type: string) => {
-    return () => {
+    return (event: MouseEvent) => {
       this.onChange(RichUtils.toggleBlockType(this.state.editorState, type));
+      event.preventDefault();
     };
   };
 
@@ -43,11 +38,23 @@ export class MdEditor extends Component<{}, IState> {
     return (
       <div className={style.container}>
         <div className={style.buttons}>
-          <Button onClick={this.styleBlock("header-two")} variant="outlined">
+          <Button
+            onMouseDown={this.styleBlock("header-two")}
+            variant="outlined"
+          >
             タイトル
           </Button>
-          <Button onClick={this.styleBlock("header-three")} variant="outlined">
+          <Button
+            onMouseDown={this.styleBlock("header-three")}
+            variant="outlined"
+          >
             サブタイトル
+          </Button>
+          <Button
+            onMouseDown={this.styleBlock("ordered-list-item")}
+            variant="outlined"
+          >
+            順序リスト
           </Button>
         </div>
         <div className={style.editorWrapper} onClick={this.focusEditor}>
@@ -55,6 +62,7 @@ export class MdEditor extends Component<{}, IState> {
             <Editor
               editorState={this.state.editorState}
               onChange={this.onChange}
+              keyBindingFn={getDefaultKeyBinding}
               ref={this.setDOMEditorRef}
             />
           </div>
