@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardContent } from "@material-ui/core";
-import { INode } from "./node";
+import { INode } from "../node";
 
 interface IProps {
   tree: INode[];

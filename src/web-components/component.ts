@@ -1,9 +1,9 @@
-type Slot = "text" | "image" | "markdown" | "component";
-
+export type Slot = "text" | "image" | "html";
 export interface IComponent {
+  tagName: string;
   name: string;
+  description: string;
   html: string;
   css?: string;
-  container?: boolean;
-  slot: { [name: string]: Slot | Slot[] };
+  slot: { [name: string]: Slot };
 }
