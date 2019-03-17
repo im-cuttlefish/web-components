@@ -1,8 +1,12 @@
 import React, { Component, MouseEvent } from "react";
-import { Button } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
 import * as style from "./style.css";
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
-import FormatListNumbered from "@material-ui/icons/FormatListNumbered";
+import {
+  FormatListNumbered,
+  FormatClear,
+  FormatListBulleted
+} from "@material-ui/icons";
 
 interface IState {
   editorState: EditorState;
@@ -39,21 +43,23 @@ export class MdEditor extends Component<{}, IState> {
     return (
       <div className={style.container}>
         <div className={style.buttons}>
-          <Button
-            onMouseDown={this.styleBlock("header-two")}
-            variant="outlined"
-          >
-            タイトル
-          </Button>
-          <Button
-            onMouseDown={this.styleBlock("header-three")}
-            variant="outlined"
-          >
+          <Button onMouseDown={this.styleBlock("header-two")}>タイトル</Button>
+          <Button onMouseDown={this.styleBlock("header-three")}>
             サブタイトル
           </Button>
-          <FormatListNumbered
-            onMouseDown={this.styleBlock("ordered-list-item")}
-          />
+          <IconButton>
+            <FormatListNumbered
+              onMouseDown={this.styleBlock("ordered-list-item")}
+            />
+          </IconButton>
+          <IconButton>
+            <FormatListBulleted
+              onMouseDown={this.styleBlock("unordered-list-item")}
+            />
+          </IconButton>
+          <IconButton>
+            <FormatClear onMouseDown={this.styleBlock("unstyled")} />
+          </IconButton>
         </div>
         <div className={style.editorWrapper} onClick={this.focusEditor}>
           <div className={style.editor}>
