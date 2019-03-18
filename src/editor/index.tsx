@@ -37,7 +37,7 @@ export class App extends Component<{}, IState> {
           <Picker tree={this.state.tree} addNode={this.addNode} />
         </div>
         <div className={style.right}>
-          <Preview />
+          <Preview tree={this.state.tree} />
         </div>
       </div>
     );

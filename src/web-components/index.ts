@@ -6,3 +6,4 @@ interface IComponents {
 }
 
 export const components: IComponents = { header };
+export const componentList: IComponent[] = [...header];
