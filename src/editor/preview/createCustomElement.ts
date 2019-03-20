@@ -1,5 +1,5 @@
 export const createCustomElement = (html: string, css?: string) => {
-  return class extends HTMLElement {
+  class Element extends HTMLElement {
     constructor() {
       super();
       const shadowRoot = this.attachShadow({ mode: "open" });
@@ -10,5 +10,7 @@ export const createCustomElement = (html: string, css?: string) => {
         shadowRoot.appendChild(style);
       }
     }
-  };
+  }
+
+  return Element;
 };

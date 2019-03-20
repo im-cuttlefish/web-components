@@ -1,26 +1,34 @@
-import React, { Component, createElement } from "react";
+import React, { Component, createElement, ReactElement } from "react";
 import { render } from "react-dom";
 import { INode } from "../node";
 import { createCustomElement } from "./createCustomElement";
 import { componentList } from "../../web-components";
 import * as style from "./style.css";
+import { IComponent } from "../../web-components/component";
 const template = require("./template.html");
 
 interface IProps {
   tree: INode[];
 }
 
-interface IState {
-  registered: Set<string>;
-}
+interface IState {}
+
+const components = new Map(
+  componentList.map(
+    (component): [string, IComponent] => [component.tagName, component]
+  )
+);
 
 export class Preview extends Component<IProps, IState> {
   private ref: React.RefObject<HTMLIFrameElement>;
+  private registered: Set<string>;
+  private root: HTMLDivElement;
 
   constructor(props: IProps) {
     super(props);
     this.ref = React.createRef();
-    this.state = { registered: new Set() };
+    this.registered = new Set();
+    this.root = document.createElement("div");
   }
 
   public render() {
@@ -28,29 +36,33 @@ export class Preview extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const { contentDocument } = this.ref.current;
-    const preview = document.createElement("div");
+    const { contentDocument } = this.ref.current!;
+    this.root = document.createElement("div");
 
     contentDocument!.head.innerHTML = template;
-    contentDocument!.body.appendChild(preview);
+    contentDocument!.body.appendChild(this.root);
 
-    render(createElement("p", null, "hello world"), preview);
+    render(createElement("p", null, "hello world"), this.root);
   }
 
   public componentDidUpdate() {
-    const { contentWindow, contentDocument } = this.ref.current;
+    const { contentWindow } = this.ref.current!;
+    const tree: ReactElement[] = [];
+
     for (const node of this.props.tree) {
       const { tagName } = node;
+      tree.push(createElement(tagName));
 
-      if (!this.state.registered.has(tagName)) {
-        const component = componentList.find(elm => elm.tagName === tagName);
-        const { html, css } = component;
-        contentWindow.customElements.define(
-          tagName,
-          createCustomElement(html, css)
-        );
-        this.state.registered.add(tagName);
+      if (!this.registered.has(tagName)) {
+        const component = components.get(tagName);
+        const { html, css } = component!;
+        console.log(html, css);
+        const element = createCustomElement(html, css);
+        contentWindow!.customElements.define(tagName, element);
+        this.registered.add(tagName);
       }
     }
+
+    render(createElement("div", {}, tree), this.root);
   }
 }
