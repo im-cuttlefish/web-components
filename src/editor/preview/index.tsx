@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { INode } from "../node";
 import { componentList } from "../../web-components";
 import * as style from "./style.css";
+import { defineCustomElement } from "./defineCustomElement";
 import { IComponent } from "../../web-components/component";
 const template = require("./template.html");
 
@@ -17,25 +18,6 @@ const components = new Map(
     (component): [string, IComponent] => [component.tagName, component]
   )
 );
-
-/*
-const createCustomElement = (html: string, css?: string) => {
-  class Element extends HTMLElement {
-    constructor() {
-      super();
-      const shadowRoot = this.attachShadow({ mode: "open" });
-      shadowRoot.innerHTML = html;
-      if (css) {
-        const style = document.createElement("style");
-        style.innerHTML = css;
-        shadowRoot.appendChild(style);
-      }
-    }
-  }
-
-  return Element;
-};
-*/
 
 export class Preview extends Component<IProps, IState> {
   private ref: React.RefObject<HTMLIFrameElement>;
@@ -72,22 +54,14 @@ export class Preview extends Component<IProps, IState> {
       if (!this.registered.has(tagName)) {
         const component = components.get(tagName);
         const { html, css } = component!;
-        console.log(html, css);
-        // tslint:disable-next-line: max-classes-per-file
-        class Hoge extends HTMLElement {
-          constructor() {
-            super();
-            const shadowRoot = this.attachShadow({ mode: "open" });
-            shadowRoot.innerHTML = html;
-            if (css) {
-              const style = document.createElement("style");
-              style.innerHTML = css;
-              shadowRoot.appendChild(style);
-            }
-          }
-        }
-        contentWindow!.customElements.define(tagName, Hoge);
         this.registered.add(tagName);
+
+        defineCustomElement({
+          tagName,
+          html,
+          css,
+          target: contentWindow
+        });
       }
     });
 
