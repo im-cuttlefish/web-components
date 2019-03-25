@@ -7,11 +7,21 @@ interface IProps {
 }
 
 export class Tree extends Component<IProps> {
+  constructor(props: IProps) {
+    super(props);
+  }
+
   public render() {
+    const { tree } = this.props;
+
     return (
-      <Card>
-        <CardContent>Wood</CardContent>
-      </Card>
+      <>
+        {tree.map(node => (
+          <Card>
+            <CardContent>{node.tagName}</CardContent>
+          </Card>
+        ))}
+      </>
     );
   }
 }

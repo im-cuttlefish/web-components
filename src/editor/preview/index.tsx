@@ -1,10 +1,9 @@
 import React, { Component, createElement, ReactElement } from "react";
 import { render } from "react-dom";
 import { INode } from "../node";
-import { componentList } from "../../web-components";
+import { getComponentMap } from "../../web-components";
 import * as style from "./style.css";
 import { defineCustomElement } from "./defineCustomElement";
-import { IComponent } from "../../web-components/component";
 const template = require("./template.html");
 
 interface IProps {
@@ -13,11 +12,7 @@ interface IProps {
 
 interface IState {}
 
-const components = new Map(
-  componentList.map(
-    (component): [string, IComponent] => [component.tagName, component]
-  )
-);
+const componentMap = getComponentMap();
 
 export class Preview extends Component<IProps, IState> {
   private ref: React.RefObject<HTMLIFrameElement>;
@@ -47,23 +42,17 @@ export class Preview extends Component<IProps, IState> {
     const { contentWindow } = this.ref.current!;
     const tree: ReactElement[] = [];
 
-    this.props.tree.forEach((node, key) => {
+    for (const node of this.props.tree) {
       const { tagName } = node;
-      tree.push(createElement(tagName, { key }));
+      tree.push(createElement(tagName, { key: tagName }));
 
       if (!this.registered.has(tagName)) {
-        const component = components.get(tagName);
+        const component = componentMap.get(tagName);
         const { html, css } = component!;
+        defineCustomElement({ tagName, html, css, target: contentWindow });
         this.registered.add(tagName);
-
-        defineCustomElement({
-          tagName,
-          html,
-          css,
-          target: contentWindow
-        });
       }
-    });
+    }
 
     render(createElement("div", {}, tree), this.root);
   }
