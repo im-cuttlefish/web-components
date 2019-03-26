@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Card, CardContent } from "@material-ui/core";
+import {
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails
+} from "@material-ui/core";
+import { ExpandMore } from "@material-ui/icons";
 import { INode } from "../node";
 
 interface IProps {
@@ -17,9 +22,12 @@ export class Tree extends Component<IProps> {
     return (
       <>
         {tree.map(node => (
-          <Card>
-            <CardContent>{node.component.name}</CardContent>
-          </Card>
+          <ExpansionPanel>
+            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+              {node.component.name}
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>aaaaa</ExpansionPanelDetails>
+          </ExpansionPanel>
         ))}
       </>
     );
