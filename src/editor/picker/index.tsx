@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { components } from "../../web-components";
+import { IComponent } from "../../web-components/component";
 import {
   Tabs,
   Tab,
@@ -15,7 +16,7 @@ import { INode } from "../node";
 
 interface IProps {
   tree: INode[];
-  addNode: (name: string) => void;
+  addNode: (component: IComponent) => void;
 }
 
 interface IState {
@@ -44,13 +45,13 @@ export class Picker extends Component<IProps, IState> {
         </Paper>
         <List>
           {components[value].map((component, key) => {
-            const { tagName, name, description } = component;
+            const { name, description } = component;
             return (
               <ListItem key={key}>
                 <ListItemText primary={name} secondary={description} />
                 <ListItemSecondaryAction>
                   {/* tslint:disable-next-line: jsx-no-lambda */}
-                  <IconButton onClick={() => addNode(tagName)}>
+                  <IconButton onClick={() => addNode(component)}>
                     <Add />
                   </IconButton>
                 </ListItemSecondaryAction>

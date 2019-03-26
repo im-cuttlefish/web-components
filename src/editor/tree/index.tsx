@@ -18,7 +18,7 @@ export class Tree extends Component<IProps> {
       <>
         {tree.map(node => (
           <Card>
-            <CardContent>{node.tagName}</CardContent>
+            <CardContent>{node.component.name}</CardContent>
           </Card>
         ))}
       </>

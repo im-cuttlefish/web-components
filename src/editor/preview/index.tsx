@@ -1,7 +1,6 @@
 import React, { Component, createElement, ReactElement } from "react";
 import { render } from "react-dom";
 import { INode } from "../node";
-import { getComponentMap } from "../../web-components";
 import * as style from "./style.css";
 import { defineCustomElement } from "./defineCustomElement";
 const template = require("./template.html");
@@ -11,8 +10,6 @@ interface IProps {
 }
 
 interface IState {}
-
-const componentMap = getComponentMap();
 
 export class Preview extends Component<IProps, IState> {
   private ref: React.RefObject<HTMLIFrameElement>;
@@ -43,12 +40,12 @@ export class Preview extends Component<IProps, IState> {
     const tree: ReactElement[] = [];
 
     for (const node of this.props.tree) {
-      const { tagName } = node;
+      const { component } = node;
+      const { tagName } = component;
       tree.push(createElement(tagName, { key: tagName }));
 
       if (!this.registered.has(tagName)) {
-        const component = componentMap.get(tagName);
-        const { html, css } = component!;
+        const { html, css } = component;
         defineCustomElement({ tagName, html, css, target: contentWindow });
         this.registered.add(tagName);
       }

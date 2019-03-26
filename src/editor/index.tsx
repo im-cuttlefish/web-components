@@ -4,7 +4,6 @@ import { Tree } from "./tree";
 import { Preview } from "./preview";
 import { MdEditor } from "./md-editor";
 import { Picker } from "./picker";
-import { getComponentMap } from "../web-components";
 import { IComponent } from "../web-components/component";
 import * as style from "./style.css";
 import { INode } from "./node";
@@ -13,19 +12,22 @@ interface IState {
   tree: INode[];
 }
 
-const componentMap = getComponentMap();
-
 export class App extends Component<{}, IState> {
   constructor(props: {}) {
     super(props);
     this.state = { tree: [] };
   }
 
-  public addNode = (tagName: string) => {
+  public addNode = (component: IComponent) => {
     const { tree } = this.state;
-    const { name } = componentMap.get(tagName)!;
-    const node = { tagName, name, contents: {} };
+    const node = { component, contents: {} };
     this.setState({ tree: tree.concat(node) });
+  };
+
+  public removeNode = (index: number) => {
+    const tree = [...this.state.tree];
+    tree.splice(index, 1);
+    this.setState({ tree });
   };
 
   public render() {

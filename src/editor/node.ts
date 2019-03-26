@@ -1,8 +1,7 @@
-import { Slot } from "../web-components/component";
+import { Slot, IComponent } from "../web-components/component";
 
 export interface INode {
-  tagName: string;
-  name: string;
+  component: IComponent;
   contents: {
     [name: string]: {
       type: Slot;
