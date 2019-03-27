@@ -37,7 +37,7 @@ export class App extends Component<{}, IState> {
           <Header />
         </div>
         <div className={style.left}>
-          <Tree tree={this.state.tree} />
+          <Tree tree={this.state.tree} removeNode={this.removeNode} />
         </div>
         <div className={style.center}>
           {/*<MdEditor />*/}

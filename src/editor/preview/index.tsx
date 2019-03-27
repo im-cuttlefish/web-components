@@ -37,19 +37,19 @@ export class Preview extends Component<IProps, IState> {
 
   public componentDidUpdate() {
     const { contentWindow } = this.ref.current!;
-    const tree: ReactElement[] = [];
 
-    for (const node of this.props.tree) {
+    const tree = this.props.tree.map((node, index) => {
       const { component } = node;
       const { tagName } = component;
-      tree.push(createElement(tagName, { key: tagName }));
 
       if (!this.registered.has(tagName)) {
         const { html, css } = component;
         defineCustomElement({ tagName, html, css, target: contentWindow });
         this.registered.add(tagName);
       }
-    }
+
+      return createElement(tagName, { key: index });
+    });
 
     render(createElement("div", {}, tree), this.root);
   }

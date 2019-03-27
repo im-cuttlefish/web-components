@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
+  ExpansionPanelActions,
+  IconButton
 } from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
+import { ExpandMore, Delete } from "@material-ui/icons";
 import { INode } from "../node";
 
 interface IProps {
   tree: INode[];
+  removeNode: (index: number) => void;
 }
 
 export class Tree extends Component<IProps> {
@@ -21,14 +24,24 @@ export class Tree extends Component<IProps> {
 
     return (
       <>
-        {tree.map(node => (
-          <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-              {node.component.name}
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>aaaaa</ExpansionPanelDetails>
-          </ExpansionPanel>
-        ))}
+        {tree.map((node, index) => {
+          const { component } = node;
+          const { name, slot } = component;
+          return (
+            <ExpansionPanel key={index}>
+              <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                {name}
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>aaaaaa</ExpansionPanelDetails>
+              <ExpansionPanelActions>
+                {/* tslint:disable-next-line: jsx-no-lambda */}
+                <IconButton onClick={() => this.props.removeNode(index)}>
+                  <Delete />
+                </IconButton>
+              </ExpansionPanelActions>
+            </ExpansionPanel>
+          );
+        })}
       </>
     );
   }
