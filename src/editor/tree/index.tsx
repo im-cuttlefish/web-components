@@ -4,9 +4,13 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   ExpansionPanelActions,
-  IconButton
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon
 } from "@material-ui/core";
-import { ExpandMore, Delete } from "@material-ui/icons";
+import { ExpandMore, Delete, Edit } from "@material-ui/icons";
 import { INode } from "../node";
 
 interface IProps {
@@ -27,12 +31,28 @@ export class Tree extends Component<IProps> {
         {tree.map((node, index) => {
           const { component } = node;
           const { name, slot } = component;
+          const slots = Object.entries(slot);
+
           return (
             <ExpansionPanel key={index}>
               <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                 {name}
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>aaaaaa</ExpansionPanelDetails>
+              <ExpansionPanelDetails>
+                <List>
+                  {slots.map((value, _index) => {
+                    const [attribute, [description, type]] = value;
+                    return (
+                      <ListItem button key={_index}>
+                        <ListItemIcon>
+                          <Edit />
+                        </ListItemIcon>
+                        <ListItemText inset primary={description} />
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </ExpansionPanelDetails>
               <ExpansionPanelActions>
                 {/* tslint:disable-next-line: jsx-no-lambda */}
                 <IconButton onClick={() => this.props.removeNode(index)}>
