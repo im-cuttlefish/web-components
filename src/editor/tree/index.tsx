@@ -11,11 +11,12 @@ import {
   ListItemIcon
 } from "@material-ui/core";
 import { ExpandMore, Delete, Edit } from "@material-ui/icons";
-import { INode } from "../node";
+import { Node } from "../node";
 
 interface IProps {
-  tree: INode[];
+  tree: Node[];
   removeNode: (index: number) => void;
+  selectNode: (index: number, name: string) => void;
 }
 
 export class Tree extends Component<IProps> {
@@ -43,7 +44,11 @@ export class Tree extends Component<IProps> {
                   {slots.map((value, _index) => {
                     const [attribute, [description, type]] = value;
                     return (
-                      <ListItem button key={_index}>
+                      <ListItem
+                        onClick={() => this.props.selectNode(_index, attribute)}
+                        button
+                        key={_index}
+                      >
                         <ListItemIcon>
                           <Edit />
                         </ListItemIcon>
@@ -54,7 +59,6 @@ export class Tree extends Component<IProps> {
                 </List>
               </ExpansionPanelDetails>
               <ExpansionPanelActions>
-                {/* tslint:disable-next-line: jsx-no-lambda */}
                 <IconButton onClick={() => this.props.removeNode(index)}>
                   <Delete />
                 </IconButton>

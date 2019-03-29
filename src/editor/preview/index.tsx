@@ -1,12 +1,12 @@
 import React, { Component, createElement, ReactElement } from "react";
 import { render } from "react-dom";
-import { INode } from "../node";
+import { Node } from "../node";
 import * as style from "./style.css";
 import { defineCustomElement } from "./defineCustomElement";
 const template = require("./template.html");
 
 interface IProps {
-  tree: INode[];
+  tree: Node[];
 }
 
 interface IState {}

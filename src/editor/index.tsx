@@ -6,40 +6,35 @@ import { MdEditor } from "./md-editor";
 import { Picker } from "./picker";
 import { IComponent } from "../web-components/component";
 import * as style from "./style.css";
-import { INode } from "./node";
+import { Node } from "./node";
 
 interface IState {
-  tree: INode[];
-  target: number | false;
+  tree: Node[];
+  editing: boolean;
+  target?: number;
+  name?: string;
 }
 
 export class App extends Component<{}, IState> {
   constructor(props: {}) {
     super(props);
-    this.state = { tree: [], target: false };
+    this.state = { tree: [], editing: false };
   }
 
   public addNode = (component: IComponent) => {
     const { tree } = this.state;
-    const contents: INode["contents"] = {};
-
-    for (const slot of Object.entries(component.slot)) {
-      const [name, [, type]] = slot;
-      contents[name] = { type, content: "" };
-    }
-
-    const node = { component, contents };
+    const node = new Node(component);
     this.setState({ tree: tree.concat(node) });
   };
 
-  public removeNode = (index: number) => {
+  public removeNode = (target: number) => {
     const tree = [...this.state.tree];
-    tree.splice(index, 1);
+    tree.splice(target, 1);
     this.setState({ tree });
   };
 
-  public editContent = (index: number, name: string) => {
-    this.setState({ target: index });
+  public selectNode = (target: number, name: string) => {
+    this.setState({ name, target, editing: true });
   };
 
   public render() {
@@ -49,13 +44,17 @@ export class App extends Component<{}, IState> {
           <Header />
         </div>
         <div className={style.left}>
-          <Tree tree={this.state.tree} removeNode={this.removeNode} />
+          <Tree
+            tree={this.state.tree}
+            removeNode={this.removeNode}
+            selectNode={this.selectNode}
+          />
         </div>
         <div className={style.center}>
-          {this.state.target === false ? (
-            <Picker tree={this.state.tree} addNode={this.addNode} />
-          ) : (
+          {this.state.editing ? (
             <MdEditor />
+          ) : (
+            <Picker tree={this.state.tree} addNode={this.addNode} />
           )}
         </div>
         <div className={style.right}>
