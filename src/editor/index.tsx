@@ -37,6 +37,13 @@ export class App extends Component<{}, IState> {
     this.setState({ name, target, editing: true });
   };
 
+  public writeText = (text: string) => {
+    const tree = [...this.state.tree];
+    const { target, name } = this.state;
+    tree[target!].contents[name!].content = text;
+    this.setState({ tree });
+  };
+
   public render() {
     return (
       <div className={style.container}>
@@ -52,7 +59,7 @@ export class App extends Component<{}, IState> {
         </div>
         <div className={style.center}>
           {this.state.editing ? (
-            <MdEditor />
+            <MdEditor writeText={this.writeText} />
           ) : (
             <Picker tree={this.state.tree} addNode={this.addNode} />
           )}

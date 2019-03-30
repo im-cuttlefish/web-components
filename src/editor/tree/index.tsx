@@ -45,7 +45,7 @@ export class Tree extends Component<IProps> {
                     const [attribute, [description, type]] = value;
                     return (
                       <ListItem
-                        onClick={() => this.props.selectNode(_index, attribute)}
+                        onClick={() => this.props.selectNode(index, attribute)}
                         button
                         key={_index}
                       >

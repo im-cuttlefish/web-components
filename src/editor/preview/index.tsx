@@ -39,7 +39,7 @@ export class Preview extends Component<IProps, IState> {
     const { contentWindow } = this.ref.current!;
 
     const tree = this.props.tree.map((node, index) => {
-      const { component } = node;
+      const { component, contents } = node;
       const { tagName } = component;
 
       if (!this.registered.has(tagName)) {
@@ -48,7 +48,15 @@ export class Preview extends Component<IProps, IState> {
         this.registered.add(tagName);
       }
 
-      return createElement(tagName, { key: index });
+      const children = Object.entries(contents).map((entry, key) => {
+        const [name, slot] = entry;
+        const { type, content } = slot;
+        if (type === "html") {
+          return createElement("span", { key, slot: name }, content);
+        }
+      });
+
+      return createElement(tagName, { key: index }, children);
     });
 
     render(createElement("div", {}, tree), this.root);

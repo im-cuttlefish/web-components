@@ -2,20 +2,25 @@ import React, { Component, MouseEvent } from "react";
 import { Button, IconButton } from "@material-ui/core";
 import * as style from "./style.css";
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
 import {
   FormatListNumbered,
   FormatClear,
   FormatListBulleted
 } from "@material-ui/icons";
 
+interface IProps {
+  writeText: (text: string) => void;
+}
+
 interface IState {
   editorState: EditorState;
 }
 
-export class MdEditor extends Component<{}, IState> {
+export class MdEditor extends Component<IProps, IState> {
   private domEditor?: Editor;
 
-  constructor(props: {}) {
+  constructor(props: IProps) {
     super(props);
     this.state = { editorState: EditorState.createEmpty() };
   }
@@ -25,6 +30,8 @@ export class MdEditor extends Component<{}, IState> {
   };
 
   public onChange = (editorState: EditorState) => {
+    const state = editorState.getCurrentContent();
+    this.props.writeText(stateToHTML(state));
     this.setState(() => ({ editorState }));
   };
 
