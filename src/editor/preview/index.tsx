@@ -37,9 +37,10 @@ export class Preview extends Component<IProps, IState> {
 
   public componentDidUpdate() {
     const { contentWindow } = this.ref.current!;
+    const { tree } = this.props;
 
-    const tree = this.props.tree.map((node, index) => {
-      const { component, contents } = node;
+    for (const node of tree) {
+      const { component } = node;
       const { tagName } = component;
 
       if (!this.registered.has(tagName)) {
@@ -47,18 +48,23 @@ export class Preview extends Component<IProps, IState> {
         defineCustomElement({ tagName, html, css, target: contentWindow });
         this.registered.add(tagName);
       }
+    }
+
+    const elements = tree.map((node, index) => {
+      const { component, contents } = node;
+      const { tagName } = component;
 
       const children = Object.entries(contents).map((entry, key) => {
         const [name, slot] = entry;
         const { type, content } = slot;
         if (type === "html") {
-          return createElement("span", { key, slot: name }, content);
+          return createElement("div", { key, slot: name }, content);
         }
       });
 
       return createElement(tagName, { key: index }, children);
     });
 
-    render(createElement("div", {}, tree), this.root);
+    render(createElement("div", {}, elements), this.root);
   }
 }

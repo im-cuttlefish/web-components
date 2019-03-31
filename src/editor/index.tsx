@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, ReactElement } from "react";
 import { Header } from "./header";
 import { Tree } from "./tree";
 import { Preview } from "./preview";
 import { MdEditor } from "./md-editor";
+import { ImageEditor } from "./image-editor";
 import { Picker } from "./picker";
 import { IComponent } from "../web-components/component";
 import * as style from "./style.css";
@@ -44,7 +45,29 @@ export class App extends Component<{}, IState> {
     this.setState({ tree });
   };
 
+  public registerImage = (image: Blob) => {
+    const url = URL.createObjectURL(image);
+    this.writeText(url);
+  };
+
   public render() {
+    const { tree, editing, target, name } = this.state;
+
+    let editor: ReactElement;
+
+    if (editing) {
+      const { type } = tree[target!].contents[name!];
+
+      switch (type) {
+        case "html":
+          editor = <MdEditor writeText={this.writeText} />;
+          break;
+        case "image":
+          editor = <ImageEditor registerImage={this.registerImage} />;
+          break;
+      }
+    }
+
     return (
       <div className={style.container}>
         <div className={style.header}>
@@ -52,20 +75,16 @@ export class App extends Component<{}, IState> {
         </div>
         <div className={style.left}>
           <Tree
-            tree={this.state.tree}
+            tree={tree}
             removeNode={this.removeNode}
             selectNode={this.selectNode}
           />
         </div>
         <div className={style.center}>
-          {this.state.editing ? (
-            <MdEditor writeText={this.writeText} />
-          ) : (
-            <Picker tree={this.state.tree} addNode={this.addNode} />
-          )}
+          {editing ? editor! : <Picker tree={tree} addNode={this.addNode} />}
         </div>
         <div className={style.right}>
-          <Preview tree={this.state.tree} />
+          <Preview tree={tree} />
         </div>
       </div>
     );
