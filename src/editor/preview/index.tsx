@@ -57,14 +57,23 @@ export class Preview extends Component<IProps, IState> {
       const children = Object.entries(contents).map((entry, key) => {
         const [name, slot] = entry;
         const { type, content } = slot;
-        if (type === "html") {
-          return createElement("div", { key, slot: name }, content);
+        switch (type) {
+          case "html":
+            return (
+              <div
+                key={key}
+                slot={name}
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
+            );
+          case "image":
+            return <img key={key} slot={name} src={content} />;
         }
       });
 
       return createElement(tagName, { key: index }, children);
     });
 
-    render(createElement("div", {}, elements), this.root);
+    render(<div>{elements}</div>, this.root);
   }
 }

@@ -45,7 +45,7 @@ export class App extends Component<{}, IState> {
     this.setState({ tree });
   };
 
-  public registerImage = (image: Blob) => {
+  public registerImage = (image: File) => {
     const url = URL.createObjectURL(image);
     this.writeText(url);
   };

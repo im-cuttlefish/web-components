@@ -1,19 +1,22 @@
-import React from "react";
-import { IconButton } from "@material-ui/core";
+import React, { ChangeEvent } from "react";
+import * as style from "./style.css";
 import { AddAPhoto } from "@material-ui/icons";
 
 interface IProps {
-  registerImage: (image: Blob) => void;
+  registerImage: (image: File) => void;
 }
 
 export const ImageEditor = (props: IProps) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files!.item(0)!;
+    props.registerImage(file);
+  };
+
   return (
     <div>
-      <input id="image" type="file" hidden />
-      <label htmlFor="image">
-        <IconButton>
-          <AddAPhoto />
-        </IconButton>
+      <label>
+        <AddAPhoto />
+        <input onChange={onChange} type="file" className={style.input} />
       </label>
     </div>
   );
