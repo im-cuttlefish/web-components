@@ -74,6 +74,6 @@ export class Preview extends Component<IProps, IState> {
       return createElement(tagName, { key: index }, children);
     });
 
-    render(<div>{elements}</div>, this.root);
+    render(<>{elements}</>, this.root);
   }
 }

@@ -30,7 +30,13 @@ export class App extends Component<{}, IState> {
 
   public removeNode = (target: number) => {
     const tree = [...this.state.tree];
+    const state: Partial<IState> = { tree };
     tree.splice(target, 1);
+
+    if (target === this.state.target) {
+      state.editing = false;
+    }
+
     this.setState({ tree });
   };
 
