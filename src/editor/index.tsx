@@ -61,11 +61,11 @@ export class App extends Component<{}, IState> {
     let editor: ReactElement;
 
     if (editing) {
-      const { type } = tree[target!].contents[name!];
+      const { type, content } = tree[target!].contents[name!];
 
       switch (type) {
         case "html":
-          editor = <MdEditor writeText={this.writeText} />;
+          editor = <MdEditor text={content} writeText={this.writeText} />;
           break;
         case "image":
           editor = <ImageEditor registerImage={this.registerImage} />;

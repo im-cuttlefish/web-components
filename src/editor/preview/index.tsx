@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { Node } from "../node";
 import * as style from "./style.css";
 import { defineCustomElement } from "./defineCustomElement";
+import { createPreview } from "./createPreview";
 const template = require("./template.html");
 
 interface IProps {
@@ -50,30 +51,6 @@ export class Preview extends Component<IProps, IState> {
       }
     }
 
-    const elements = tree.map((node, index) => {
-      const { component, contents } = node;
-      const { tagName } = component;
-
-      const children = Object.entries(contents).map((entry, key) => {
-        const [name, slot] = entry;
-        const { type, content } = slot;
-        switch (type) {
-          case "html":
-            return (
-              <div
-                key={key}
-                slot={name}
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
-            );
-          case "image":
-            return <img key={key} slot={name} src={content} />;
-        }
-      });
-
-      return createElement(tagName, { key: index }, children);
-    });
-
-    render(<>{elements}</>, this.root);
+    render(createPreview(tree), this.root);
   }
 }

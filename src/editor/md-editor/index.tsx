@@ -2,6 +2,7 @@ import React, { Component, MouseEvent } from "react";
 import { Button, IconButton } from "@material-ui/core";
 import * as style from "./style.css";
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
+import { stateFromHTML } from "draft-js-import-html";
 import { stateToHTML } from "draft-js-export-html";
 import {
   FormatListNumbered,
@@ -10,6 +11,7 @@ import {
 } from "@material-ui/icons";
 
 interface IProps {
+  text: string;
   writeText: (text: string) => void;
 }
 
@@ -22,7 +24,8 @@ export class MdEditor extends Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+    const content = stateFromHTML(props.text);
+    this.state = { editorState: EditorState.createWithContent(content) };
   }
 
   public setDOMEditorRef = (ref: Editor) => {
