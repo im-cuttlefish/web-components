@@ -30,14 +30,14 @@ export class App extends Component<{}, IState> {
 
   public removeNode = (target: number) => {
     const tree = [...this.state.tree];
-    const state: Partial<IState> = { tree };
+    const state: any = { tree };
     tree.splice(target, 1);
 
     if (target === this.state.target) {
       state.editing = false;
     }
 
-    this.setState({ tree });
+    this.setState(state);
   };
 
   public selectNode = (target: number, name: string) => {
@@ -58,7 +58,6 @@ export class App extends Component<{}, IState> {
 
   public render() {
     const { tree, editing, target, name } = this.state;
-
     let editor: ReactElement;
 
     if (editing) {
