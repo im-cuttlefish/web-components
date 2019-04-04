@@ -44,6 +44,10 @@ export class App extends Component<{}, IState> {
     this.setState({ name, target, editing: true });
   };
 
+  public stopEditing = () => {
+    this.setState({ editing: false });
+  };
+
   public writeText = (text: string) => {
     const tree = [...this.state.tree];
     const { target, name } = this.state;
@@ -65,7 +69,13 @@ export class App extends Component<{}, IState> {
 
       switch (type) {
         case "html":
-          editor = <MdEditor text={content} writeText={this.writeText} />;
+          editor = (
+            <MdEditor
+              text={content}
+              stopEditing={this.stopEditing}
+              writeText={this.writeText}
+            />
+          );
           break;
         case "image":
           editor = <ImageEditor registerImage={this.registerImage} />;

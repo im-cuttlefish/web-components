@@ -7,11 +7,13 @@ import { stateToHTML } from "draft-js-export-html";
 import {
   FormatListNumbered,
   FormatClear,
-  FormatListBulleted
+  FormatListBulleted,
+  Close
 } from "@material-ui/icons";
 
 interface IProps {
   text: string;
+  stopEditing: () => void;
   writeText: (text: string) => void;
 }
 
@@ -52,6 +54,11 @@ export class MdEditor extends Component<IProps, IState> {
   public render() {
     return (
       <div className={style.container}>
+        <div onClick={this.props.stopEditing} className={style.close}>
+          <IconButton>
+            <Close />
+          </IconButton>
+        </div>
         <div className={style.buttons}>
           <Button onMouseDown={this.styleBlock("header-two")}>タイトル</Button>
           <Button onMouseDown={this.styleBlock("header-three")}>
