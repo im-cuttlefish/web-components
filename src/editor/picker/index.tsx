@@ -20,7 +20,7 @@ interface IProps {
 }
 
 interface IState {
-  value: string;
+  target: string;
   types: string[];
 }
 
@@ -28,29 +28,37 @@ export class Picker extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const types = Object.keys(components);
-    this.state = { types, value: types[0] };
+    this.state = { types, target: types[0] };
   }
+
+  public setTarget = (index: number) => {
+    this.setState({ target: this.state.types[index] });
+  };
 
   public render() {
     const { addNode } = this.props;
-    const { types, value } = this.state;
+    const { types, target } = this.state;
     return (
       <div>
         <Paper square>
-          <Tabs value={value} indicatorColor="primary" textColor="primary">
+          <Tabs value={target} indicatorColor="primary" textColor="primary">
             {types.map((type, key) => (
-              <Tab key={key} label={type} value={type} />
+              <Tab
+                onClick={() => this.setTarget(key)}
+                value={type}
+                key={key}
+                label={type}
+              />
             ))}
           </Tabs>
         </Paper>
         <List>
-          {components[value].map((component, key) => {
+          {components[target].map((component, key) => {
             const { name, description } = component;
             return (
               <ListItem key={key}>
                 <ListItemText primary={name} secondary={description} />
                 <ListItemSecondaryAction>
-                  {/* tslint:disable-next-line: jsx-no-lambda */}
                   <IconButton onClick={() => addNode(component)}>
                     <Add />
                   </IconButton>

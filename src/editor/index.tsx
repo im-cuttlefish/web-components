@@ -68,7 +68,8 @@ export class App extends Component<{}, IState> {
       const { type, content } = tree[target!].contents[name!];
 
       switch (type) {
-        case "html":
+        case "markdown":
+        case "plaintext":
           editor = (
             <MdEditor
               text={content}

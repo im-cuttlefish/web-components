@@ -42,7 +42,7 @@ export class Tree extends Component<IProps> {
               <ExpansionPanelDetails>
                 <List>
                   {slots.map((value, _index) => {
-                    const [attribute, [description, type]] = value;
+                    const [attribute, [, description]] = value;
                     return (
                       <ListItem
                         onClick={() => this.props.selectNode(index, attribute)}

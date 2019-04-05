@@ -1,4 +1,5 @@
 import React, { createElement } from "react";
+import marked from "marked";
 import { Node } from "../node";
 
 export const createPreview = (tree: Node[]) => {
@@ -13,7 +14,8 @@ export const createPreview = (tree: Node[]) => {
 
       if (!content) {
         switch (type) {
-          case "html":
+          case "markdown":
+          case "plaintext":
             content = "placeholder";
             break;
           case "image":
@@ -23,7 +25,9 @@ export const createPreview = (tree: Node[]) => {
       }
 
       switch (type) {
-        case "html":
+        case "markdown":
+          content = marked(content);
+        case "plaintext":
           return (
             <div
               key={index}
