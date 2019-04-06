@@ -1,4 +1,6 @@
-import React, { Component, ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
+import { IconButton } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 import * as style from "./style.css";
 
 interface IProps {
@@ -7,29 +9,24 @@ interface IProps {
   writeText: (text: string) => void;
 }
 
-interface IState {}
-
-export class MdEditor extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
-  public writeText = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    this.props.writeText(event.target.value);
+export const MdEditor = ({ text, writeText, stopEditing }: IProps) => {
+  const onChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    writeText(event.target.value);
   };
 
-  public render() {
-    const { text } = this.props;
-
-    return (
-      <div className={style.container}>
-        <textarea
-          onChange={this.writeText}
-          value={text}
-          placeholder="Markdownを入力してください"
-          className={style.editor}
-        />
+  return (
+    <div className={style.container}>
+      <div className={style.buttons}>
+        <IconButton onClick={stopEditing}>
+          <Close />
+        </IconButton>
       </div>
-    );
-  }
-}
+      <textarea
+        onChange={onChange}
+        value={text}
+        placeholder="入力してください"
+        className={style.editor}
+      />
+    </div>
+  );
+};

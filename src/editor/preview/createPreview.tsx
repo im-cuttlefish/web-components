@@ -12,21 +12,9 @@ export const createPreview = (tree: Node[]) => {
       const { type } = slot;
       let { content } = slot;
 
-      if (!content) {
-        switch (type) {
-          case "markdown":
-          case "plaintext":
-            content = "placeholder";
-            break;
-          case "image":
-            content = "./assets/placeholder.png";
-            break;
-        }
-      }
-
       switch (type) {
         case "markdown":
-          content = marked(content);
+          content = marked(content, { headerIds: false, breaks: true });
         case "plaintext":
           return (
             <div

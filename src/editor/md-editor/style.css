@@ -1,6 +1,12 @@
 .container {
   position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
   height: 100%;
+}
+
+.buttons {
+  display: flex;
 }
 
 .editor {

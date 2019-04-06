@@ -1,4 +1,4 @@
-import React, { Component, createElement, ReactElement } from "react";
+import React, { Component } from "react";
 import { render } from "react-dom";
 import { Node } from "../node";
 import * as style from "./style.css";
@@ -10,9 +10,7 @@ interface IProps {
   tree: Node[];
 }
 
-interface IState {}
-
-export class Preview extends Component<IProps, IState> {
+export class Preview extends Component<IProps> {
   private ref: React.RefObject<HTMLIFrameElement>;
   private registered: Set<string>;
   private root: HTMLDivElement;

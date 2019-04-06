@@ -1,4 +1,4 @@
-import React, { Component, ReactElement } from "react";
+import React, { Component } from "react";
 import { Header } from "./header";
 import { Tree } from "./tree";
 import { Preview } from "./preview";
@@ -29,14 +29,13 @@ export class App extends Component<{}, IState> {
   };
 
   public removeNode = (target: number) => {
-    const tree = [...this.state.tree];
-    const state: any = { tree };
-    tree.splice(target, 1);
-
     if (target === this.state.target) {
-      state.editing = false;
+      this.stopEditing();
     }
 
+    const tree = [...this.state.tree];
+    const state = { tree };
+    tree.splice(target, 1);
     this.setState(state);
   };
 
@@ -62,27 +61,32 @@ export class App extends Component<{}, IState> {
 
   public render() {
     const { tree, editing, target, name } = this.state;
-    let editor: ReactElement;
+    const editor = (() => {
+      if (!editing) {
+        return <Picker tree={tree} addNode={this.addNode} />;
+      }
 
-    if (editing) {
       const { type, content } = tree[target!].contents[name!];
 
       switch (type) {
         case "markdown":
         case "plaintext":
-          editor = (
+          return (
             <MdEditor
               text={content}
               stopEditing={this.stopEditing}
               writeText={this.writeText}
             />
           );
-          break;
         case "image":
-          editor = <ImageEditor registerImage={this.registerImage} />;
-          break;
+          return (
+            <ImageEditor
+              registerImage={this.registerImage}
+              stopEditing={this.stopEditing}
+            />
+          );
       }
-    }
+    })();
 
     return (
       <div className={style.container}>
@@ -96,9 +100,7 @@ export class App extends Component<{}, IState> {
             selectNode={this.selectNode}
           />
         </div>
-        <div className={style.center}>
-          {editing ? editor! : <Picker tree={tree} addNode={this.addNode} />}
-        </div>
+        <div className={style.center}>{editor}</div>
         <div className={style.right}>
           <Preview tree={tree} />
         </div>

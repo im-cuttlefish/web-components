@@ -19,54 +19,45 @@ interface IProps {
   selectNode: (index: number, name: string) => void;
 }
 
-export class Tree extends Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
+export const Tree = ({ tree, removeNode, selectNode }: IProps) => {
+  return (
+    <>
+    {tree.map((node, target) => {
+      const { component } = node;
+      const { name, slot } = component;
+      const slots = Object.entries(slot);
 
-  public render() {
-    const { tree } = this.props;
-
-    return (
-      <>
-        {tree.map((node, index) => {
-          const { component } = node;
-          const { name, slot } = component;
-          const slots = Object.entries(slot);
-
-          return (
-            <ExpansionPanel key={index}>
-              <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-                {name}
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <List>
-                  {slots.map((value, _index) => {
-                    const [attribute, [, description]] = value;
-                    return (
-                      <ListItem
-                        onClick={() => this.props.selectNode(index, attribute)}
-                        button
-                        key={_index}
-                      >
-                        <ListItemIcon>
-                          <Edit />
-                        </ListItemIcon>
-                        <ListItemText inset primary={description} />
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </ExpansionPanelDetails>
-              <ExpansionPanelActions>
-                <IconButton onClick={() => this.props.removeNode(index)}>
-                  <Delete />
-                </IconButton>
-              </ExpansionPanelActions>
-            </ExpansionPanel>
-          );
-        })}
-      </>
-    );
-  }
-}
+      return (
+        <ExpansionPanel key={target}>
+          <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+            {name}
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <List>
+              {slots.map((value, index) => {
+                const [attribute, [, description]] = value;
+                return (
+                  <ListItem
+                    onClick={() => selectNode(target, attribute)}
+                    button
+                    key={index}
+                  >
+                    <ListItemIcon>
+                      <Edit />
+                    </ListItemIcon>
+                    <ListItemText inset primary={description} />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </ExpansionPanelDetails>
+          <ExpansionPanelActions>
+            <IconButton onClick={() => removeNode(target)}>
+              <Delete />
+            </IconButton>
+          </ExpansionPanelActions>
+        </ExpansionPanel>
+      );
+    })}
+  </>
+};
