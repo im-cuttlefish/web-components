@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -22,42 +22,43 @@ interface IProps {
 export const Tree = ({ tree, removeNode, selectNode }: IProps) => {
   return (
     <>
-    {tree.map((node, target) => {
-      const { component } = node;
-      const { name, slot } = component;
-      const slots = Object.entries(slot);
+      {tree.map((node, target) => {
+        const { component } = node;
+        const { name, slot } = component;
+        const slots = Object.entries(slot);
 
-      return (
-        <ExpansionPanel key={target}>
-          <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-            {name}
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <List>
-              {slots.map((value, index) => {
-                const [attribute, [, description]] = value;
-                return (
-                  <ListItem
-                    onClick={() => selectNode(target, attribute)}
-                    button
-                    key={index}
-                  >
-                    <ListItemIcon>
-                      <Edit />
-                    </ListItemIcon>
-                    <ListItemText inset primary={description} />
-                  </ListItem>
-                );
-              })}
-            </List>
-          </ExpansionPanelDetails>
-          <ExpansionPanelActions>
-            <IconButton onClick={() => removeNode(target)}>
-              <Delete />
-            </IconButton>
-          </ExpansionPanelActions>
-        </ExpansionPanel>
-      );
-    })}
-  </>
+        return (
+          <ExpansionPanel key={target}>
+            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+              {name}
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <List>
+                {slots.map((value, index) => {
+                  const [attribute, [, description]] = value;
+                  return (
+                    <ListItem
+                      onClick={() => selectNode(target, attribute)}
+                      button
+                      key={index}
+                    >
+                      <ListItemIcon>
+                        <Edit />
+                      </ListItemIcon>
+                      <ListItemText inset primary={description} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </ExpansionPanelDetails>
+            <ExpansionPanelActions>
+              <IconButton onClick={() => removeNode(target)}>
+                <Delete />
+              </IconButton>
+            </ExpansionPanelActions>
+          </ExpansionPanel>
+        );
+      })}
+    </>
+  );
 };
