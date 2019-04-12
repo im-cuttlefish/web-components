@@ -20,6 +20,7 @@ export const createPreview = (tree: Node[]) => {
             <div
               key={index}
               slot={name}
+              style={{ color: "#f00" }}
               dangerouslySetInnerHTML={{ __html: content }}
             />
           );

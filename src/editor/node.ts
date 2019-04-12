@@ -1,9 +1,15 @@
 import { Slot, IComponent } from "../web-components/component";
 
+export interface IStyle {
+  color: string;
+  background: string;
+}
+
 interface IContents {
   [name: string]: {
     type: Slot;
     content: string;
+    style: Partial<IStyle>;
   };
 }
 
@@ -24,7 +30,11 @@ export class Node {
   constructor(public component: IComponent) {
     for (const slot of Object.entries(component.slot)) {
       const [name, [type]] = slot;
-      this.contents[name] = { type, content: getDefaultContent(type) };
+      this.contents[name] = {
+        type,
+        style: {},
+        content: getDefaultContent(type)
+      };
     }
   }
 }

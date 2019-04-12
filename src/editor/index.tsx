@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Header } from "./header";
 import { Tree } from "./tree";
 import { Preview } from "./preview";
-import { MdEditor } from "./md-editor";
+import { TextEditor } from "./text-editor";
 import { ImageEditor } from "./image-editor";
 import { Picker } from "./picker";
 import { IComponent } from "../web-components/component";
-import * as style from "./style.css";
-import { Node } from "./node";
+import { IStyle, Node } from "./node";
+import * as css from "./style.css";
 
 interface IState {
   tree: Node[];
@@ -54,6 +54,12 @@ export class App extends Component<{}, IState> {
     this.setState({ tree });
   };
 
+  public updateStyle = (style: Partial<IStyle>) => {
+    const tree = [...this.state.tree];
+    const { target, name } = this.state;
+    const next = Object.assign(tree[target!].contents[name!].style, style);
+  };
+
   public registerImage = (image: File) => {
     const url = URL.createObjectURL(image);
     this.writeText(url);
@@ -72,7 +78,7 @@ export class App extends Component<{}, IState> {
         case "markdown":
         case "plaintext":
           return (
-            <MdEditor
+            <TextEditor
               text={content}
               stopEditing={this.stopEditing}
               writeText={this.writeText}
@@ -89,19 +95,19 @@ export class App extends Component<{}, IState> {
     })();
 
     return (
-      <div className={style.container}>
-        <div className={style.header}>
+      <div className={css.container}>
+        <div className={css.header}>
           <Header />
         </div>
-        <div className={style.left}>
+        <div className={css.left}>
           <Tree
             tree={tree}
             removeNode={this.removeNode}
             selectNode={this.selectNode}
           />
         </div>
-        <div className={style.center}>{editor}</div>
-        <div className={style.right}>
+        <div className={css.center}>{editor}</div>
+        <div className={css.right}>
           <Preview tree={tree} />
         </div>
       </div>
