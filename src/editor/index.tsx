@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as R from "ramda";
 import { Header } from "./header";
 import { Tree } from "./tree";
 import { Preview } from "./preview";
@@ -12,20 +13,20 @@ import * as css from "./style.css";
 interface IState {
   tree: Node[];
   editing: boolean;
-  target?: number;
-  name?: string;
+  target: number;
+  name: string;
 }
 
 export class App extends Component<{}, IState> {
   constructor(props: {}) {
     super(props);
-    this.state = { tree: [], editing: false };
+    this.state = { tree: [], editing: false, target: 0, name: "" };
   }
 
   public addNode = (component: IComponent) => {
     const { tree } = this.state;
     const node = new Node(component);
-    this.setState({ tree: tree.concat(node) });
+    this.setState({ tree: R.append(node, tree) });
   };
 
   public removeNode = (target: number) => {
@@ -33,10 +34,8 @@ export class App extends Component<{}, IState> {
       this.stopEditing();
     }
 
-    const tree = [...this.state.tree];
-    const state = { tree };
-    tree.splice(target, 1);
-    this.setState(state);
+    const tree = R.remove(target, 1, this.state.tree);
+    this.setState({ tree });
   };
 
   public selectNode = (target: number, name: string) => {
@@ -48,16 +47,17 @@ export class App extends Component<{}, IState> {
   };
 
   public writeText = (text: string) => {
-    const tree = [...this.state.tree];
+    const tree = R.clone(this.state.tree);
     const { target, name } = this.state;
-    tree[target!].contents[name!].content = text;
+    tree[target].contents[name].content = text;
     this.setState({ tree });
   };
 
   public updateStyle = (style: Partial<IStyle>) => {
-    const tree = [...this.state.tree];
+    const tree = R.clone(this.state.tree);
     const { target, name } = this.state;
-    const next = Object.assign(tree[target!].contents[name!].style, style);
+    Object.assign(tree[target].contents[name].style, style);
+    this.setState({ tree });
   };
 
   public registerImage = (image: File) => {
