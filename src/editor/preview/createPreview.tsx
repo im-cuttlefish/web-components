@@ -4,7 +4,7 @@ import { Node } from "../node";
 
 export const createPreview = (tree: Node[]) => {
   const elements = tree.map((node, key) => {
-    const { component, contents } = node;
+    const { component, contents, style } = node;
     const { tagName } = component;
 
     const children = Object.entries(contents).map((entry, index) => {
@@ -20,7 +20,7 @@ export const createPreview = (tree: Node[]) => {
             <div
               key={index}
               slot={name}
-              style={{ color: "#f00" }}
+              style={style}
               dangerouslySetInnerHTML={{ __html: content }}
             />
           );

@@ -9,7 +9,6 @@ interface IContents {
   [name: string]: {
     type: Slot;
     content: string;
-    style: Partial<IStyle>;
   };
 }
 
@@ -26,13 +25,13 @@ const getDefaultContent = (type: Slot) => {
 
 export class Node {
   public contents: IContents = {};
+  public style: Partial<IStyle> = {};
 
   constructor(public component: IComponent) {
     for (const slot of Object.entries(component.slot)) {
       const [name, [type]] = slot;
       this.contents[name] = {
         type,
-        style: {},
         content: getDefaultContent(type)
       };
     }

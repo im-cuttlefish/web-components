@@ -1,3 +1,5 @@
-.single-column {
+.single-column ::slotted(*) {
   padding: 2rem 10%;
+  border: solid 1px #000;
+  padding: 50px;
 }

@@ -4,22 +4,20 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   ExpansionPanelActions,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon
+  IconButton
 } from "@material-ui/core";
-import { ExpandMore, Delete, Edit } from "@material-ui/icons";
+import { ExpandMore, Delete } from "@material-ui/icons";
 import { Node } from "../node";
+import { TargetList } from "./target-list";
+import { Slot } from "../../web-components/component";
 
 interface IProps {
   tree: Node[];
   removeNode: (index: number) => void;
-  selectNode: (index: number, name: string) => void;
+  editNode: (type: Slot | "style", index: number, name?: string) => void;
 }
 
-export const Tree = ({ tree, removeNode, selectNode }: IProps) => {
+export const Tree = ({ tree, removeNode, editNode }: IProps) => {
   return (
     <>
       {tree.map((node, target) => {
@@ -33,23 +31,7 @@ export const Tree = ({ tree, removeNode, selectNode }: IProps) => {
               {name}
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <List>
-                {slots.map((value, index) => {
-                  const [attribute, [, description]] = value;
-                  return (
-                    <ListItem
-                      onClick={() => selectNode(target, attribute)}
-                      button
-                      key={index}
-                    >
-                      <ListItemIcon>
-                        <Edit />
-                      </ListItemIcon>
-                      <ListItemText inset primary={description} />
-                    </ListItem>
-                  );
-                })}
-              </List>
+              <TargetList editNode={editNode} slots={slots} target={target} />
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
               <IconButton onClick={() => removeNode(target)}>

@@ -5,22 +5,24 @@ import { Tree } from "./tree";
 import { Preview } from "./preview";
 import { TextEditor } from "./text-editor";
 import { ImageEditor } from "./image-editor";
+import { StyleEditor } from "./style-editor";
 import { Picker } from "./picker";
-import { IComponent } from "../web-components/component";
+import { IComponent, Slot } from "../web-components/component";
 import { IStyle, Node } from "./node";
 import * as css from "./style.css";
 
 interface IState {
   tree: Node[];
   editing: boolean;
-  target: number;
-  name: string;
+  type?: Slot | "style";
+  target?: number;
+  name?: string;
 }
 
 export class App extends Component<{}, IState> {
   constructor(props: {}) {
     super(props);
-    this.state = { tree: [], editing: false, target: 0, name: "" };
+    this.state = { tree: [], editing: false };
   }
 
   public addNode = (component: IComponent) => {
@@ -38,8 +40,14 @@ export class App extends Component<{}, IState> {
     this.setState({ tree });
   };
 
-  public selectNode = (target: number, name: string) => {
-    this.setState({ name, target, editing: true });
+  public editNode = (type: Slot | "style", target: number, name?: string) => {
+    const state = R.mergeRight(this.state, {
+      type,
+      target,
+      name,
+      editing: true
+    });
+    this.setState(state);
   };
 
   public stopEditing = () => {
@@ -49,14 +57,14 @@ export class App extends Component<{}, IState> {
   public writeText = (text: string) => {
     const tree = R.clone(this.state.tree);
     const { target, name } = this.state;
-    tree[target].contents[name].content = text;
+    tree[target!].contents[name!].content = text;
     this.setState({ tree });
   };
 
   public updateStyle = (style: Partial<IStyle>) => {
     const tree = R.clone(this.state.tree);
-    const { target, name } = this.state;
-    Object.assign(tree[target].contents[name].style, style);
+    const { target } = this.state;
+    Object.assign(tree[target!].style, style);
     this.setState({ tree });
   };
 
@@ -66,17 +74,18 @@ export class App extends Component<{}, IState> {
   };
 
   public render() {
-    const { tree, editing, target, name } = this.state;
+    const { tree, editing, type, target, name } = this.state;
     const editor = (() => {
       if (!editing) {
         return <Picker tree={tree} addNode={this.addNode} />;
       }
 
-      const { type, content } = tree[target!].contents[name!];
+      const { style, contents } = tree[target!];
 
       switch (type) {
         case "markdown":
         case "plaintext":
+          const { content } = contents[name!];
           return (
             <TextEditor
               text={content}
@@ -88,6 +97,14 @@ export class App extends Component<{}, IState> {
           return (
             <ImageEditor
               registerImage={this.registerImage}
+              stopEditing={this.stopEditing}
+            />
+          );
+        case "style":
+          return (
+            <StyleEditor
+              style={style}
+              updateStyle={this.updateStyle}
               stopEditing={this.stopEditing}
             />
           );
@@ -103,7 +120,7 @@ export class App extends Component<{}, IState> {
           <Tree
             tree={tree}
             removeNode={this.removeNode}
-            selectNode={this.selectNode}
+            editNode={this.editNode}
           />
         </div>
         <div className={css.center}>{editor}</div>
