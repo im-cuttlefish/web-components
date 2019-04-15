@@ -6,7 +6,7 @@ import {
   ExpansionPanelActions,
   IconButton
 } from "@material-ui/core";
-import { ExpandMore, Delete } from "@material-ui/icons";
+import { ExpandMore, Delete, ArrowUpward } from "@material-ui/icons";
 import { Node } from "../node";
 import { TargetList } from "./target-list";
 import { Slot } from "../../web-components/component";
@@ -34,6 +34,9 @@ export const Tree = ({ tree, removeNode, editNode }: IProps) => {
               <TargetList editNode={editNode} slots={slots} target={target} />
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
+              <IconButton>
+                <ArrowUpward />
+              </IconButton>
               <IconButton onClick={() => removeNode(target)}>
                 <Delete />
               </IconButton>

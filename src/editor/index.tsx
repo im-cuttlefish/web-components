@@ -40,14 +40,10 @@ export class App extends Component<{}, IState> {
     this.setState({ tree });
   };
 
+  public moveNode = (target: number) => {};
+
   public editNode = (type: Slot | "style", target: number, name?: string) => {
-    const state = R.mergeRight(this.state, {
-      type,
-      target,
-      name,
-      editing: true
-    });
-    this.setState(state);
+    this.setState({ type, target, name, editing: true });
   };
 
   public stopEditing = () => {
@@ -55,16 +51,17 @@ export class App extends Component<{}, IState> {
   };
 
   public writeText = (text: string) => {
-    const tree = R.clone(this.state.tree);
-    const { target, name } = this.state;
-    tree[target!].contents[name!].content = text;
+    const { target, name, tree: oldtree } = this.state;
+    const path = [target!, "contents", name!, "content"];
+    const tree = R.assocPath(path, text, oldtree);
     this.setState({ tree });
   };
 
   public updateStyle = (style: Partial<IStyle>) => {
-    const tree = R.clone(this.state.tree);
-    const { target } = this.state;
-    Object.assign(tree[target!].style, style);
+    const { target, tree: oldtree } = this.state;
+    const path = [target!, "style"];
+    const merged = R.mergeRight(R.path(path, oldtree), style);
+    const tree = R.assocPath(path, merged, oldtree);
     this.setState({ tree });
   };
 
