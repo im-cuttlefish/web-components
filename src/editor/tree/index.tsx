@@ -7,12 +7,12 @@ import {
   IconButton
 } from "@material-ui/core";
 import { ExpandMore, Delete, ArrowUpward } from "@material-ui/icons";
-import { Node } from "../node";
+import { INode } from "../node";
 import { TargetList } from "./target-list";
 import { Slot } from "../../web-components/component";
 
 interface IProps {
-  tree: Node[];
+  tree: INode[];
   removeNode: (index: number) => void;
   editNode: (type: Slot | "style", index: number, name?: string) => void;
 }
@@ -21,12 +21,12 @@ export const Tree = ({ tree, removeNode, editNode }: IProps) => {
   return (
     <>
       {tree.map((node, target) => {
-        const { component } = node;
+        const { id, component } = node;
         const { name, slot } = component;
         const slots = Object.entries(slot);
 
         return (
-          <ExpansionPanel key={target}>
+          <ExpansionPanel key={id}>
             <ExpansionPanelSummary expandIcon={<ExpandMore />}>
               {name}
             </ExpansionPanelSummary>

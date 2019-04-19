@@ -12,10 +12,10 @@ import {
   IconButton
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-import { Node } from "../node";
+import { INode } from "../node";
 
 interface IProps {
-  tree: Node[];
+  tree: INode[];
   addNode: (component: IComponent) => void;
 }
 

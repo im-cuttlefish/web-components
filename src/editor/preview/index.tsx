@@ -1,25 +1,28 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { Node } from "../node";
+import { INode } from "../node";
 import * as style from "./style.css";
 import { defineCustomElement } from "./defineCustomElement";
-import { createPreview } from "./createPreview";
+import { buildPreviewCreater } from "./createPreview";
 const template = require("./template.html");
 
 interface IProps {
-  tree: Node[];
+  target?: number;
+  tree: INode[];
 }
 
 export class Preview extends Component<IProps> {
   private ref: React.RefObject<HTMLIFrameElement>;
   private registered: Set<string>;
   private root: HTMLDivElement;
+  private createPreview: (tree: INode[]) => JSX.Element;
 
   constructor(props: IProps) {
     super(props);
     this.ref = React.createRef();
     this.registered = new Set();
     this.root = document.createElement("div");
+    this.createPreview = buildPreviewCreater(props.tree);
   }
 
   public render() {
@@ -49,6 +52,6 @@ export class Preview extends Component<IProps> {
       }
     }
 
-    render(createPreview(tree), this.root);
+    render(this.createPreview(tree), this.root);
   }
 }

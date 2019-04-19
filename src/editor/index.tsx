@@ -8,11 +8,11 @@ import { ImageEditor } from "./image-editor";
 import { StyleEditor } from "./style-editor";
 import { Picker } from "./picker";
 import { IComponent, Slot } from "../web-components/component";
-import { IStyle, Node } from "./node";
+import { createNode, IStyle, INode } from "./node";
 import * as css from "./style.css";
 
 interface IState {
-  tree: Node[];
+  tree: INode[];
   editing: boolean;
   type?: Slot | "style";
   target?: number;
@@ -27,7 +27,7 @@ export class App extends Component<{}, IState> {
 
   public addNode = (component: IComponent) => {
     const { tree } = this.state;
-    const node = new Node(component);
+    const node = createNode(component);
     this.setState({ tree: R.append(node, tree) });
   };
 
@@ -40,7 +40,16 @@ export class App extends Component<{}, IState> {
     this.setState({ tree });
   };
 
-  public moveNode = (target: number) => {};
+  public moveNode = (target: number, direction: "up" | "down") => {
+    const { tree: oldtree } = this.state;
+
+    if (direction === "up") {
+      if (target === 0) return;
+      const reversed = oldtree.slice(target - 1, target + 1).reverse();
+      const removed = R.remove(target, 2, reversed);
+      const tree = R.insert(target, reversed, removed);
+    }
+  };
 
   public editNode = (type: Slot | "style", target: number, name?: string) => {
     this.setState({ type, target, name, editing: true });
@@ -60,7 +69,7 @@ export class App extends Component<{}, IState> {
   public updateStyle = (style: Partial<IStyle>) => {
     const { target, tree: oldtree } = this.state;
     const path = [target!, "style"];
-    const merged = R.mergeRight(R.path(path, oldtree), style);
+    const merged = R.mergeDeepRight(R.path(path, oldtree)!, style);
     const tree = R.assocPath(path, merged, oldtree);
     this.setState({ tree });
   };

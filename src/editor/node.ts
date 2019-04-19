@@ -1,15 +1,23 @@
 import { Slot, IComponent } from "../web-components/component";
+import { generate as generateID } from "shortid";
 
 export interface IStyle {
   color: string;
   background: string;
 }
 
-interface IContents {
+export interface IContents {
   [name: string]: {
     type: Slot;
     content: string;
   };
+}
+
+export interface INode {
+  id: string;
+  contents: IContents;
+  style: Partial<IStyle>;
+  component: IComponent;
 }
 
 const getDefaultContent = (type: Slot) => {
@@ -23,17 +31,15 @@ const getDefaultContent = (type: Slot) => {
   }
 };
 
-export class Node {
-  public contents: IContents = {};
-  public style: Partial<IStyle> = {};
+export const createNode = (component: IComponent): INode => {
+  const contents: IContents = {};
+  const style: Partial<IStyle> = {};
+  const id = generateID();
 
-  constructor(public component: IComponent) {
-    for (const slot of Object.entries(component.slot)) {
-      const [name, [type]] = slot;
-      this.contents[name] = {
-        type,
-        content: getDefaultContent(type)
-      };
-    }
+  for (const slot of Object.entries(component.slot)) {
+    const [name, [type]] = slot;
+    contents[name] = { type, content: getDefaultContent(type) };
   }
-}
+
+  return { id, contents, style, component };
+};
