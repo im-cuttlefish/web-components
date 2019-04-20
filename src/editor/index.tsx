@@ -42,13 +42,9 @@ export class App extends Component<{}, IState> {
 
   public moveNode = (target: number, direction: "up" | "down") => {
     const { tree: oldtree } = this.state;
-
-    if (direction === "up") {
-      if (target === 0) return;
-      const reversed = oldtree.slice(target - 1, target + 1).reverse();
-      const removed = R.remove(target, 2, reversed);
-      const tree = R.insert(target, reversed, removed);
-    }
+    const to = direction === "up" ? target - 1 : target + 1;
+    const tree = R.move(target, to, oldtree);
+    this.setState({ tree });
   };
 
   public editNode = (type: Slot | "style", target: number, name?: string) => {
@@ -125,6 +121,7 @@ export class App extends Component<{}, IState> {
         <div className={css.left}>
           <Tree
             tree={tree}
+            moveNode={this.moveNode}
             removeNode={this.removeNode}
             editNode={this.editNode}
           />

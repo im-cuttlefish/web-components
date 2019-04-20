@@ -30,34 +30,29 @@ export const buildPreviewCreater = (initialTree: INode[]) => {
   const prevElements = new Map<string, JSX.Element>();
 
   return (tree: INode[]) => {
-    const nextNodes: Array<[string, INodes]> = [];
-    const nextElements: Array<[string, JSX.Element]> = [];
+    const memoizer: Array<[string, INode, JSX.Element]> = [];
 
     const nodes = tree.map(node => {
       const { component, contents, style, id } = node;
       const { tagName } = component;
-      nextNodes.push([id, node]);
 
       if (equals(node, prevNodes.get(id))) {
         const memoized = prevElements.get(id)!;
-        nextElements.push([id, memoized]);
+        memoizer.push([id, node, memoized]);
         return memoized;
       }
 
       const children = Object.entries(contents).map(createContent);
       const element = createElement(tagName, { style, key: id }, children);
-      nextElements.push([id, element]);
+      memoizer.push([id, node, element]);
       return element;
     });
 
     prevNodes.clear();
     prevElements.clear();
 
-    for (const [id, node] of nextNodes) {
+    for (const [id, node, element] of memoizer) {
       prevNodes.set(id, node);
-    }
-
-    for (const [id, element] of nextElements) {
       prevElements.set(id, element);
     }
 
