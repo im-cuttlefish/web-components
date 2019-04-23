@@ -76,42 +76,7 @@ export class App extends Component<{}, IState> {
   };
 
   public render() {
-    const { tree, editing, type, target, name } = this.state;
-    const editor = (() => {
-      if (!editing) {
-        return <Picker tree={tree} addNode={this.addNode} />;
-      }
-
-      const { style, contents } = tree[target!];
-
-      switch (type) {
-        case "markdown":
-        case "plaintext":
-          const { content } = contents[name!];
-          return (
-            <TextEditor
-              text={content}
-              stopEditing={this.stopEditing}
-              writeText={this.writeText}
-            />
-          );
-        case "image":
-          return (
-            <ImageEditor
-              registerImage={this.registerImage}
-              stopEditing={this.stopEditing}
-            />
-          );
-        case "style":
-          return (
-            <StyleEditor
-              style={style}
-              updateStyle={this.updateStyle}
-              stopEditing={this.stopEditing}
-            />
-          );
-      }
-    })();
+    const { tree, editing } = this.state;
 
     return (
       <div className={css.container}>
@@ -126,11 +91,50 @@ export class App extends Component<{}, IState> {
             editNode={this.editNode}
           />
         </div>
-        <div className={css.center}>{editor}</div>
+        <div className={css.center}>
+          {editing ? (
+            this.renderEditor()
+          ) : (
+            <Picker tree={tree} addNode={this.addNode} />
+          )}
+        </div>
         <div className={css.right}>
           <Preview tree={tree} />
         </div>
       </div>
     );
+  }
+
+  public renderEditor() {
+    const { tree, type, target, name } = this.state;
+    const { style, contents } = tree[target!];
+
+    switch (type) {
+      case "markdown":
+      case "plaintext":
+        const { content } = contents[name!];
+        return (
+          <TextEditor
+            text={content}
+            stopEditing={this.stopEditing}
+            writeText={this.writeText}
+          />
+        );
+      case "image":
+        return (
+          <ImageEditor
+            registerImage={this.registerImage}
+            stopEditing={this.stopEditing}
+          />
+        );
+      case "style":
+        return (
+          <StyleEditor
+            style={style}
+            updateStyle={this.updateStyle}
+            stopEditing={this.stopEditing}
+          />
+        );
+    }
   }
 }

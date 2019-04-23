@@ -5,5 +5,10 @@ export interface IComponent {
   description: string;
   html: string;
   css?: string;
-  slot: { [name: string]: [Slot, string] };
+  slot: {
+    [name: string]: {
+      type: Slot;
+      role: string;
+    };
+  };
 }

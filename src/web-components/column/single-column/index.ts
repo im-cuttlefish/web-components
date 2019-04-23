@@ -9,6 +9,9 @@ export const singleColumn: Readonly<IComponent> = {
   html: template,
   css: style,
   slot: {
-    content: ["markdown", "内容"]
+    content: {
+      type: "markdown",
+      role: "内容"
+    }
   }
 };

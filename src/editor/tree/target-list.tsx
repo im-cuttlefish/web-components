@@ -5,14 +5,14 @@ import { Slot } from "../../web-components/component";
 
 interface IProps {
   editNode: (type: Slot | "style", index: number, name?: string) => void;
-  slots: Array<[string, [Slot, string]]>;
+  slots: Array<[string, { type: Slot; role: string }]>;
   target: number;
 }
 
 export const TargetList = ({ editNode, slots, target }: IProps) => (
   <List>
     {slots.map((slot, key) => {
-      const [attribute, [type, description]] = slot;
+      const [attribute, { type, role }] = slot;
       return (
         <ListItem
           onClick={() => editNode(type, target, attribute)}
@@ -22,7 +22,7 @@ export const TargetList = ({ editNode, slots, target }: IProps) => (
           <ListItemIcon>
             <Edit />
           </ListItemIcon>
-          <ListItemText inset primary={description} />
+          <ListItemText inset primary={role} />
         </ListItem>
       );
     })}

@@ -9,7 +9,13 @@ export const heroHeader: Readonly<IComponent> = {
   html: template,
   css: style,
   slot: {
-    cover: ["image", "背景"],
-    title: ["plaintext", "タイトル"]
+    cover: {
+      type: "image",
+      role: "背景"
+    },
+    title: {
+      type: "plaintext",
+      role: "タイトル"
+    }
   }
 };

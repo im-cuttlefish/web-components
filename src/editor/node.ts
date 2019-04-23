@@ -37,7 +37,7 @@ export const createNode = (component: IComponent): INode => {
   const id = generateID();
 
   for (const slot of Object.entries(component.slot)) {
-    const [name, [type]] = slot;
+    const [name, { type }] = slot;
     contents[name] = { type, content: getDefaultContent(type) };
   }
 
