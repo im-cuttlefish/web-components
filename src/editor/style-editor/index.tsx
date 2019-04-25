@@ -26,8 +26,14 @@ export const StyleEditor = ({ style, updateStyle, stopEditing }: IProps) => {
         </IconButton>
       </div>
       <div>
-        <ChromePicker color={color} onChange={onChange("color")} />
-        <ChromePicker color={background} onChange={onChange("background")} />
+        <div>
+          文字色
+          <ChromePicker color={color} onChange={onChange("color")} />
+        </div>
+        <div>
+          背景色
+          <ChromePicker color={background} onChange={onChange("background")} />
+        </div>
       </div>
     </div>
   );

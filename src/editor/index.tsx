@@ -76,7 +76,7 @@ export class App extends Component<{}, IState> {
   };
 
   public render() {
-    const { tree, editing } = this.state;
+    const { tree, target, editing } = this.state;
 
     return (
       <div className={css.container}>
