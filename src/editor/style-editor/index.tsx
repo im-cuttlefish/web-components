@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import { IconButton } from "@material-ui/core";
 import { ChromePicker, ColorResult } from "react-color";
 import { Close } from "@material-ui/icons";
@@ -12,9 +12,12 @@ interface IProps {
 }
 
 export const StyleEditor = ({ style, updateStyle, stopEditing }: IProps) => {
-  const onChange = (type: keyof IStyle) => ({ hex }: ColorResult) => {
-    updateStyle({ [type]: hex });
-  };
+  const onChange = useCallback(
+    (type: keyof IStyle) => ({ hex }: ColorResult) => {
+      updateStyle({ [type]: hex });
+    },
+    []
+  );
 
   const { color, background } = style;
 

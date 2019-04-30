@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -26,7 +26,7 @@ interface IProps {
 
 export const Tree = ({ tree, moveNode, removeNode, editNode }: IProps) => {
   const [selected, select] = useState("");
-  const onClick = (id: string) => () => select(id);
+  const onClick = (id: string) => () => select(id === selected ? "" : id);
 
   return (
     <div className={style.container}>
@@ -37,12 +37,11 @@ export const Tree = ({ tree, moveNode, removeNode, editNode }: IProps) => {
           const slots = Object.entries(slot);
 
           return (
-            <ExpansionPanel
-              expanded={selected === id}
-              onClick={onClick(id)}
-              key={id}
-            >
-              <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+            <ExpansionPanel expanded={selected === id} key={id}>
+              <ExpansionPanelSummary
+                onClick={onClick(id)}
+                expandIcon={<ExpandMore />}
+              >
                 {name}
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>

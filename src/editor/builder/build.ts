@@ -1,14 +1,8 @@
 import JSZip from "jszip";
 import { INode } from "../node";
+import { buildHTML } from "./buildHTML";
 
 export const BuildZip = (tree: INode[]) => {
-  const body = document.createElement("body");
-
-  for (const node of tree) {
-    const { contents, style, component } = node;
-    const { tagName, html, css, slot } = component;
-
-    const element = document.createElement(tagName);
-    Object.assign(element.style, style);
-  }
+  const zip = new JSZip();
+  zip.file("index.html", buildHTML(tree));
 };

@@ -1,5 +1,6 @@
 import marked from "marked";
 import { INode, IContents } from "../node";
+import { applyTemplate } from "./applyTemplate";
 
 type Content = IContents[string];
 
@@ -39,7 +40,8 @@ const createElement = (node: INode) => {
 };
 
 export const buildHTML = (tree: INode[]) => {
-  const body = document.createElement("body");
+  const div = document.createElement("div");
   const elements = tree.map(createElement);
-  elements.forEach(body.appendChild);
+  elements.forEach(div.appendChild);
+  return applyTemplate(div.innerHTML);
 };
