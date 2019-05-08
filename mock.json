@@ -2,12 +2,14 @@
   "descriptions": {
     "header": [
       {
+        "tagName": "hero-header",
         "name": "ヒーローヘッダー",
         "description": "写真を全面に打ち出したヘッダーです"
       }
     ],
     "column": [
       {
+        "tagName": "single-column",
         "name": "シングルカラム",
         "description": "中央にテキストを配したレイアウトです"
       }

@@ -18,13 +18,14 @@ export interface IComponent {
 
 export interface IDescriptions {
   [group: string]: Array<{
+    tagName: string;
     name: string;
     description: string;
   }>;
 }
 
 export const getDescriptions = () =>
-  ky.get("http://localhost:3000/descriptions").json<IDescriptions>();
+  ky.get("http://localhost:5000/descriptions").json<IDescriptions>();
 
 export const getComponentByTagName = (name: string) =>
-  ky.get(`http://localhost:3000/components/${name}`).json<IComponent>();
+  ky.get(`http://localhost:5000/components/${name}`).json<IComponent>();

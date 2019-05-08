@@ -1,7 +1,7 @@
 import React from "react";
 import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { Edit, FormatPaint } from "@material-ui/icons";
-import { Slot } from "../../../web-components/component";
+import { Slot } from "../web-components";
 
 interface IProps {
   editNode: (type: Slot | "style", index: number, name?: string) => void;

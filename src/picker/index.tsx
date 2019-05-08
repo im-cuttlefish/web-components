@@ -11,16 +11,11 @@ import {
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { INode } from "../node";
-import {
-  getDescriptions,
-  getComponentByTagName,
-  IDescriptions,
-  IComponent
-} from "../web-components";
+import { getDescriptions, IDescriptions } from "../web-components";
 
 interface IProps {
   tree: INode[];
-  addNode: (component: IComponent) => void;
+  addNode: (tagName: string) => void;
 }
 
 interface IState {
@@ -69,12 +64,12 @@ export class Picker extends Component<IProps, IState> {
           </Paper>
           <List>
             {descriptions![target!].map((component, key) => {
-              const { name, description } = component;
+              const { name, description, tagName } = component;
               return (
                 <ListItem key={key}>
                   <ListItemText primary={name} secondary={description} />
                   <ListItemSecondaryAction>
-                    <IconButton onClick={() => addNode(component)}>
+                    <IconButton onClick={() => addNode(tagName)}>
                       <Add />
                     </IconButton>
                   </ListItemSecondaryAction>

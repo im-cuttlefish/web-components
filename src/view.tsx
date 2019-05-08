@@ -7,7 +7,7 @@ import { TextEditor } from "./text-editor";
 import { ImageEditor } from "./image-editor";
 import { StyleEditor } from "./style-editor";
 import { Picker } from "./picker";
-import { IComponent, Slot } from "./web-components";
+import { Slot, getComponentByTagName } from "./web-components";
 import { createNode, IStyle, INode } from "./node";
 import * as css from "./style.css";
 
@@ -25,8 +25,9 @@ export class App extends Component<{}, IState> {
     this.state = { tree: [], editing: false };
   }
 
-  public addNode = (component: IComponent) => {
+  public addNode = async (tagName: string) => {
     const { tree } = this.state;
+    const component = await getComponentByTagName(tagName);
     const node = createNode(component);
     this.setState({ tree: R.append(node, tree) });
   };
@@ -76,7 +77,7 @@ export class App extends Component<{}, IState> {
   };
 
   public render() {
-    const { tree, target, editing } = this.state;
+    const { tree, editing } = this.state;
 
     return (
       <div className={css.container}>
