@@ -17,5 +17,6 @@ export const applyTemplate = (content: string) => `<!DOCTYPE html>
   </head>
   <body>
     ${content}
+    <script src="./script.js"></script>
   </body>
 </html>`;

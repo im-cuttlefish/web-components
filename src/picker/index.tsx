@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { INode } from "../node";
-import { getDescriptions, IDescriptions } from "../web-components";
+import { getDescriptions, IDescription } from "../web-components";
 
 interface IProps {
   tree: INode[];
@@ -20,7 +20,7 @@ interface IProps {
 
 interface IState {
   loaded: boolean;
-  descriptions?: IDescriptions;
+  descriptions?: { [key: string]: IDescription[] };
   target?: string;
   types?: string[];
 }
