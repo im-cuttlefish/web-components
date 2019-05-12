@@ -24,11 +24,15 @@ module.exports = {
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader?modules"]
+      },
+      {
+        test: /\.txt$/,
+        use: "raw-loader"
       }
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".html", ".css"]
+    extensions: [".tsx", ".ts", ".js", ".html", ".css", ".txt"]
   },
   output: {
     filename: "bundle.js",
