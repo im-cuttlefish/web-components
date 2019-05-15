@@ -12,21 +12,28 @@ type Build = "downloadable" | "building" | "unbuilt";
 
 export const Builder = ({ tree }: IProps) => {
   const link = useRef<string>("");
-  const [building, toggleBuilding] = useState<Build>("unbuilt");
+  const [build, toggleBuilding] = useState<Build>("unbuilt");
 
   const onClick = useCallback(async () => {
-    if ("unbuilt") {
-      toggleBuilding("building");
+    if (build === "unbuilt") {
       link.current = await BuildZip(tree);
       toggleBuilding("downloadable");
     }
   }, [tree, link]);
 
-  return (
-    <div>
-      <IconButton>
-        <CloudDownload />
-      </IconButton>
-    </div>
+  const Button = (
+    <IconButton onClick={onClick}>
+      <CloudDownload />
+    </IconButton>
   );
+
+  if (build === "downloadable") {
+    return (
+      <a href={link.current} download>
+        {Button}
+      </a>
+    );
+  }
+
+  return <a>{Button}</a>;
 };

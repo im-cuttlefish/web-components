@@ -82,7 +82,7 @@ export class App extends Component<{}, IState> {
     return (
       <div className={css.container}>
         <div className={css.header}>
-          <Header />
+          <Header tree={tree} />
         </div>
         <div className={css.left}>
           <Tree
